@@ -13,14 +13,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/index', [CarController::class, 'index'])->name('cars.index');
+    Route::get('/cars/create', [CarController::class, 'create'])->name('cars.create');
+    Route::post('/cars', [CarController::class, 'store'])->name('cars.store');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/', [CarController::class, 'index'])->name('home');
-Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
-Route::get('/cars/create', [CarController::class, 'create'])->name('cars.create');
-Route::post('/cars', [CarController::class, 'store'])->name('cars.store');
+Route::get('/', [CarController::class, 'welcome'])->name('welcome');
 
 require __DIR__.'/auth.php';

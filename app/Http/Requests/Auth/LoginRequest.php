@@ -11,6 +11,8 @@ use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
+    protected $input_type;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,12 +27,12 @@ class LoginRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
     public function rules(): array
-    {
-        return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
-        ];
-    }
+{
+    return [
+        'input_type' => ['required', 'string'],
+        'password' => ['required', 'string'],
+    ];
+}
 
     /**
      * Attempt to authenticate the request's credentials.
@@ -40,18 +42,18 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+    
+        if (!Auth::attempt([$this->input_type => $this->input('input_type'), 'password' => $this->input('password')], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-
+    
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'input_type' => trans('auth.failed'),
             ]);
         }
-
+    
         RateLimiter::clear($this->throttleKey());
     }
-
+    
     /**
      * Ensure the login request is not rate limited.
      *
@@ -82,4 +84,11 @@ class LoginRequest extends FormRequest
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
     }
+
+    protected function prepareForValidation()
+    {
+        $this->input_type = filter_var($this->input('input_type'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $this->merge([$this->input_type => $this->input('input_type')]);
+    }
+    
 }

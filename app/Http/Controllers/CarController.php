@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
-    // Mostrar la página de inicio
-    public function index()
+    // Mostrar la página de bienvenida con todos los coches
+    public function welcome()
     {
         $cars = Car::all(); // Obtener todos los coches de la base de datos
         return view('welcome', ['cars' => $cars]); // Pasar los coches a la vista
     }
 
-    // Mostrar la lista de coches disponibles
-    public function showCars()
+    // Mostrar la lista de coches disponibles para usuarios autenticados
+    public function index()
     {
         $cars = Car::all(); // Obtener todos los coches de la base de datos
         return view('cars.index', ['cars' => $cars]); // Pasar los coches a la vista
@@ -39,7 +39,7 @@ class CarController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'anio' => 'required|integer',
             'kilometraje' => 'required|integer',
-            'distintivo_ambiental' => 'required|string|max:255',
+            'distintivo_ambiental' => 'required|string',
             'combustible' => 'required|string|max:255',
             'cambio' => 'required|string|max:255',
             'motor' => 'required|string|max:255',
@@ -53,22 +53,22 @@ class CarController extends Controller
         $car->color = $validatedData['color'];
         $car->anio = $validatedData['anio'];
         $car->kilometraje = $validatedData['kilometraje'];
+        $car->distintivo_ambiental = $validatedData['distintivo_ambiental'];
         $car->combustible = $validatedData['combustible'];
         $car->cambio = $validatedData['cambio'];
         $car->motor = $validatedData['motor'];
         $car->precio = $validatedData['precio'];
-        
+
         if ($request->hasFile('image')) {
             $userId = Auth::id();
             $path = $request->file('image')->store("images/{$userId}", 'public');
             $car->image = $path;
         }
+
         // Guardar el coche en la base de datos
         $car->save();
 
         // Redireccionar a la lista de coches con un mensaje de éxito
-        return redirect()->route('home')->with('success', 'Coche añadido correctamente');
+        return redirect()->route('cars.index')->with('success', 'Coche añadido correctamente');
     }
 }
-
-
