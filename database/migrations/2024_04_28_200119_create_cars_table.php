@@ -8,19 +8,34 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
+            $table->string('marca');
+            $table->string('modelo');
+            $table->string('color');
+            $table->string('imagen')->nullable();
+            $table->integer('anio');
+            $table->integer('kilometraje');
+            $table->string('distintivo_ambiental');
+            $table->string('combustible');
+            $table->string('cambio');
+            $table->string('motor');
+            $table->decimal('precio', 10, 2);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('cars');
     }
