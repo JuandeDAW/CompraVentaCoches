@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,8 +13,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/', [CarController::class, 'index'])->name('home');
+Route::get('/cars/search', [CarController::class, 'search'])->name('cars.search');
+Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
+
 Route::middleware('auth')->group(function () {
-    Route::get('/index', [CarController::class, 'index'])->name('cars.index');
+    Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
     Route::get('/cars/create', [CarController::class, 'create'])->name('cars.create');
     Route::post('/cars', [CarController::class, 'store'])->name('cars.store');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -21,6 +26,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/', [CarController::class, 'welcome'])->name('welcome');
 
 require __DIR__.'/auth.php';

@@ -69,7 +69,7 @@
                     <div class="col-md-4">
                         <div class="card car-card" data-id="{{ $car->id }}">
                             @if ($car->image)
-                                <img src="{{ asset('storage/' . $car->image) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}">
+                            <img src="{{ $car->imagen }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}">
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
