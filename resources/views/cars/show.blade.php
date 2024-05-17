@@ -13,11 +13,11 @@
                 <p class="card-text">
                     Año: {{ $car->anio }}<br>
                     Kilometraje: {{ $car->kilometraje }} km<br>
-                    Precio: ${{ number_format($car->precio, 2) }}<br>
+                    Precio: {{ number_format($car->precio, 2) }}€<br>
                     Color: {{ $car->color }}<br>
                     Distintivo Ambiental: {{ $car->distintivo_ambiental }}<br>
                     Combustible: {{ $car->combustible }}<br>
-                    Cambio: {{ $car->cambio }}<br>
+                    Transmisión: {{ $car->cambio }}<br>
                     Motor: {{ $car->motor }}
                 </p>
             </div>

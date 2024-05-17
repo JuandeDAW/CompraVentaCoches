@@ -69,7 +69,7 @@
                                 <a class="nav-link" href="{{ route('profile.edit') }}">Mi Perfil</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-primary" href="{{ route('cars.create') }}">Subir Coche</a>
+                                <a class="btn btn-primary" href="{{ route('create') }}">Subir Coche</a>
                             </li>
                             <li class="nav-item">
                                 <form method="POST" action="{{ route('logout') }}" class="d-inline">

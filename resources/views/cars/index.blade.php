@@ -16,15 +16,11 @@
                         <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}">
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
+                            <h3 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
+                            <h4>{{ number_format($car->precio, 2) }}€</h6>
                             <p class="card-text">
                                 Año: {{ $car->anio }}<br>
                                 Kilometraje: {{ $car->kilometraje }} km<br>
-                                Precio: ${{ number_format($car->precio, 2) }}<br>
-                                Color: {{ $car->color }}<br>
-                                Combustible: {{ $car->combustible }}<br>
-                                Cambio: {{ $car->cambio }}<br>
-                                Motor: {{ $car->motor }}
                             </p>
                             <a href="{{ route('cars.show', $car->id) }}" class="btn btn-primary">Ver Detalles</a>
                         </div>

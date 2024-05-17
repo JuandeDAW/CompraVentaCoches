@@ -30,7 +30,7 @@ class CarController extends Controller
 
     public function create()
     {
-        return view('cars.create');
+        return view('create');
     }
 
     public function store(Request $request)
@@ -64,6 +64,8 @@ class CarController extends Controller
         $car->cambio = $validatedData['cambio'];
         $car->motor = $validatedData['motor'];
         $car->precio = $validatedData['precio'];
+
+        $car->save();
 
     // Manejar la subida de las imágenes
     if ($request->hasFile('imagenes')) {
