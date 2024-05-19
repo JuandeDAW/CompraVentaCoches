@@ -76,7 +76,7 @@
                                 <p class="card-text">
                                     Año: {{ $car->anio }}<br>
                                     Kilometraje: {{ $car->kilometraje }} km<br>
-                                    Precio: {{ number_format($car->precio, 2)€ }}
+                                    Precio: {{ number_format($car->precio)€ }}
                                 </p>
                             </div>
                         </div>

@@ -6,7 +6,7 @@
         <h1 class="text-center">{{ $car->marca }} {{ $car->modelo }}</h1>
         <div class="card mx-auto" style="width: 24rem;">
             @if ($car->imagen)
-                <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}">
+                <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}" onclick="openGallery(1)">
             @endif
             <div class="card-body">
                 <h5 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
@@ -22,6 +22,122 @@
                 </p>
             </div>
         </div>
+        <div class="mt-4">
+            <div id="gallery-modal" class="gallery-modal">
+                <span class="close" onclick="closeGallery()">&times;</span>
+                <div class="gallery-content">
+                    <img src="{{ asset('storage/' . $car->imagen) }}" class="gallery-slide"> <!-- Principal image -->
+                    @foreach($car->images as $index => $image)
+                        <img src="{{ asset('storage/' . $image->image_path) }}" class="gallery-slide" onclick="openGallery({{ $index + 2 }})">
+                    @endforeach
+                </div>
+                <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                <a class="next" onclick="changeSlide(1)">&#10095;</a>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+.gallery-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.gallery-content {
+    position: relative;
+    margin: auto;
+    padding: 10px;
+    width: 80%;
+    max-width: 700px;
+}
+
+.gallery-slide {
+    display: none;
+    width: 100%;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+</style>
+
+<script>
+let slideIndex = 1;
+
+function openGallery(n) {
+    document.getElementById('gallery-modal').style.display = 'block';
+    showSlides(slideIndex = n);
+}
+
+function closeGallery() {
+    document.getElementById('gallery-modal').style.display = 'none';
+}
+
+function changeSlide(n) {
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    let slides = document.getElementsByClassName('gallery-slide');
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+    }
+    slides[slideIndex - 1].style.display = 'block';
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('gallery-modal')) {
+        closeGallery();
+    }
+}
+</script>
 @endsection

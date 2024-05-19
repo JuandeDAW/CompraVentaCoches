@@ -54,8 +54,8 @@
                 <div class="form-group col-md-6">
                     <label for="cambio">Transmisión</label>
                     <select class="form-control" id="cambio" name="cambio" required>
-                        <option value="Automático">Automático</option>
                         <option value="Manual">Manual</option>
+                        <option value="Automático">Automática</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
