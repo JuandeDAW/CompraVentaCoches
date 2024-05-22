@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('usuarios', UsuarioController::class);
    
+    Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');
 
     
 

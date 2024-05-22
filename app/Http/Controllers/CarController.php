@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +13,14 @@ class CarController extends Controller
         $cars = Car::all();
         return view('cars.index', compact('cars'));
     }
+
+    public function UserCar($id){
+        $us = User::find($id);
+        $cars = $us->cars;
+        return view('GestionCochesUsuarios.index', compact('us','cars'));
+        } 
+       
+       
 
     public function search(Request $request)
     {
@@ -62,7 +70,7 @@ class CarController extends Controller
     $car->cambio = $validatedData['cambio'];
     $car->motor = $validatedData['motor'];
     $car->precio = $validatedData['precio'];
-    $car->users_id = auth()->user()->id ;
+    $car->user_id = auth()->user()->id ;
 
     $car->save();
 

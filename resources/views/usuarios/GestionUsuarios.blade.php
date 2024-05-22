@@ -38,7 +38,7 @@
                         <td>{{$usuario->username}}</td>
                         <td>{{$usuario->created_at}}</td>
                     <td>
-                        <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-info">Ver Anuncios</a>
+                        <a href="{{ route('cars.user', $usuario->id) }}" class="btn btn-info">Ver Anuncios</a>
                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-primary">Editar</a> 
                         <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display:inline-block;">
                             @csrf
