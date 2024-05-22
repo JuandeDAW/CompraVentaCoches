@@ -97,5 +97,45 @@ class CarController extends Controller
     return redirect()->route('home')->with('success', 'Coche añadido correctamente');
 }
 
+public function edit(Car $car)
+    {
+        return view('cars.edit', compact('car'));
+    }
+
+    public function update(Request $request, Car $car)
+{
+    $validatedData = $request->validate([
+        'marca' => 'required|string',
+        'modelo' => 'required|string',
+        'color' => 'required|string',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Cambiado a 'imagen' en lugar de 'imagen_path'
+        'anio' => 'required|integer',
+        'kilometraje' => 'required|integer',
+        'distintivo_ambiental' => 'required|string',
+        'combustible' => 'required|string',
+        'cambio' => 'required|string',
+        'motor' => 'required|string',
+        'precio' => 'required|numeric',
+    ]);
+
+    if ($request->hasFile('imagen')) {
+        $imagePath = $request->file('imagen')->store('images', 'public');
+        $validatedData['imagen'] = $imagePath; // Actualiza la ruta de la imagen en los datos validados
+    }
+
+    $car->update($validatedData); // Actualiza el modelo con los datos validados
+
+    return redirect()->route('cars.index')->with('success', 'Coche actualizado correctamente');
+}
+
+
+
+    public function destroy(Car $car)
+    {
+        $car->delete();
+        return redirect()->route('cars.index')->with('success', 'Coche eliminado exitosamente');
+    }
+
+
 }
 

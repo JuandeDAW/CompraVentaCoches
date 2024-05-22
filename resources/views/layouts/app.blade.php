@@ -69,7 +69,7 @@
                                 <a class="nav-link" href="{{ route('usuarios.index') }}">Gestión Usuarios</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">Mi Perfil</a>
+                                <a class="nav-link" href="{{ route('miperfil.misAnuncios') }}">Mi Perfil</a>
                             </li>
                             <li class="nav-item">
                                 <a class="btn btn-primary" href="{{ route('create') }}">Subir Coche</a>

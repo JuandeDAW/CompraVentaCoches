@@ -32,4 +32,22 @@ class Car extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Relación con compras
+    public function compras()
+    {
+        return $this->hasMany(CompraCoche::class);
+    }
+
+    // Relación con ventas
+    public function ventas()
+    {
+        return $this->hasMany(VentaCoche::class);
+    }
+
+    // Relación con favoritos
+    public function favourites()
+    {
+        return $this->hasMany(CocheFavorito::class);
+    }
 }
