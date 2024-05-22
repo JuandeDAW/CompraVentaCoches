@@ -66,6 +66,9 @@
                             </li>
                         @else
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('usuarios.index') }}">Gestión Usuarios</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile.edit') }}">Mi Perfil</a>
                             </li>
                             <li class="nav-item">

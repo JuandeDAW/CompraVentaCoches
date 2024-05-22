@@ -62,6 +62,7 @@ class CarController extends Controller
     $car->cambio = $validatedData['cambio'];
     $car->motor = $validatedData['motor'];
     $car->precio = $validatedData['precio'];
+    $car->users_id = auth()->user()->id ;
 
     $car->save();
 
