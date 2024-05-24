@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Wallacar') }}</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('bootstrap.min.css') }}">
@@ -39,7 +39,7 @@
             border-radius: .25rem;
         }
         .navbar-brand img {
-            height: 180px; 
+            height: 100px; 
             width: auto; 
             
         }
@@ -49,7 +49,9 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">Coches</a>
+                <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('images/WALLACAR.png') }}" alt="Logo" > 
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -62,9 +64,6 @@
                     </ul>
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="navbar-brand" href="{{ url('/') }}">
-                            <img src="{{ asset('images/WALLACAR.png') }}" alt="Logo" > 
-                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
