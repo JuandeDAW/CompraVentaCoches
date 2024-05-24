@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Ruta gestion usuarios
     Route::resource('usuarios', UsuarioController::class);
    
     Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');

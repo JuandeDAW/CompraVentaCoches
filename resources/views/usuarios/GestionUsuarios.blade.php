@@ -26,6 +26,7 @@
                  <th>Email</th>
                  <th>Nombre de Usuario</th>
                  <th>Fecha Alta</th>
+                 <th>Perfil</th>
                  <th>Acciones</th>
             </tr>
         </thead>
@@ -37,6 +38,7 @@
                         <td>{{$usuario->email}}</td>
                         <td>{{$usuario->username}}</td>
                         <td>{{$usuario->created_at}}</td>
+                        <td>{{$usuario->profile}}</td>
                     <td>
                         <a href="{{ route('cars.user', $usuario->id) }}" class="btn btn-info">Ver Anuncios</a>
                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-primary">Editar</a> 

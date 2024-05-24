@@ -29,6 +29,10 @@
             <input type="text" name="username" class="form-control" required>
         </div>
         <div class="form-group">
+            <label for="profile">Perfil (admin/cliente)</label>
+            <input type="text" name="profile" class="form-control" required>
+        </div>
+        <div class="form-group">
             <label for="password">Contraseña</label>
             <input type="password" name="password" class="form-control" required>
         </div>

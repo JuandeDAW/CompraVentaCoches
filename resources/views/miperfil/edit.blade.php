@@ -23,7 +23,7 @@
                 <h3>Mi Perfil</h3>
             </div>
             <ul class="list-unstyled components">
-                <p>{{ auth()->user()->name }}</p>
+                <p>{{ auth()->user()->username }}</p>
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Historial</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">

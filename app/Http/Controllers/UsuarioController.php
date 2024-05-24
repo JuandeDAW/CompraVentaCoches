@@ -37,14 +37,21 @@ class UsuarioController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'profile' => 'nullable|in:admin,cliente',
         ]);
 
-        User::create([
+        $userData = [
             'name' => $request->name,
             'email' => $request->email,
             'username' => $request->username,
             'password' => bcrypt($request->password),
-        ]);
+        ];
+    
+        if ($request->has('profile')) {
+            $userData['profile'] = $request->profile;
+        }
+    
+        User::create($userData);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado con éxito.');
     }
@@ -65,13 +72,22 @@ class UsuarioController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'profile' => 'nullable|in:admin,cliente',
         ]);
 
-        $usuario->update([
+        $userData = [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $usuario->password,
-        ]);
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+        ];
+        
+        
+        if ($request->has('profile')) {
+            $userData['profile'] = $request->profile;
+        }
+        
+        $usuario->update($userData);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado con éxito.');
     }

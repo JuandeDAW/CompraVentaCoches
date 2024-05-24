@@ -6,15 +6,16 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bootstrap.min.css') }}">
     <style>
         body {
             background-color: #f8f9fa;
         }
         .navbar-nav .nav-item .nav-link {
-            color: #007bff;
+            color: black;
         }
         .navbar-nav .nav-item .nav-link:hover {
-            color: #0056b3;
+            color: red;
         }
         .navbar-nav .nav-item .btn {
             color: #fff;
@@ -23,22 +24,25 @@
             height: 200px;
             object-fit: cover;
         }
-
         .form-control {
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: .25rem;
-}
-
-.form-control-file {
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: .25rem;
-}
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+        }
+        .form-control-file {
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+        }
+        .navbar-brand img {
+            height: 180px; 
+            width: auto; 
+            
+        }
     </style>
 </head>
 <body>
@@ -55,6 +59,13 @@
                             <input class="form-control mr-sm-2" type="search" placeholder="Buscar coches" aria-label="Buscar" name="query">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                         </form>
+                    </ul>
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{ asset('images/WALLACAR.png') }}" alt="Logo" > 
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @guest

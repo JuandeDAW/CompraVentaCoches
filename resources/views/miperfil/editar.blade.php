@@ -14,7 +14,6 @@
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email" value="{{ auth()->user()->email }}">
         </div>
-        <!-- Agrega más campos según sea necesario -->
         <div class="form-group">
             <label for="telefono">Teléfono</label>
             <input type="text" class="form-control" id="telefono" name="telefono" value="{{ auth()->user()->telefono }}">
