@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('cambio');
             $table->string('motor');
             $table->decimal('precio', 10, 2);
+            $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -19,7 +19,8 @@ class Car extends Model
         'combustible', 
         'cambio', 
         'motor', 
-        'precio'
+        'precio',
+        'descripcion'  
     ];
 
     public function images()

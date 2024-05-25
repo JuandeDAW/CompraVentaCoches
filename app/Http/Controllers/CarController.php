@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Car;
@@ -44,60 +45,75 @@ class CarController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validar los datos del formulario
-        $validatedData = $request->validate([
-            'marca' => 'required|string|max:255',
-            'modelo' => 'required|string|max:255',
-            'color' => 'required|string|max:255',
-            'imagenes.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'anio' => 'required|integer',
-            'kilometraje' => 'required|integer',
-            'distintivo_ambiental' => 'required|string|max:255',
-            'combustible' => 'required|string|max:255',
-            'cambio' => 'required|string|max:255',
-            'motor' => 'required|string|max:255',
-            'precio' => 'required|numeric',
-        ]);
+{
+    Log::info('Inicio de la solicitud de almacenamiento de coche.');
 
-        // Crear un nuevo objeto Car con los datos validados
-        $car = new Car();
-        $car->marca = $validatedData['marca'];
-        $car->modelo = $validatedData['modelo'];
-        $car->color = $validatedData['color'];
-        $car->anio = $validatedData['anio'];
-        $car->kilometraje = $validatedData['kilometraje'];
-        $car->distintivo_ambiental = $validatedData['distintivo_ambiental'];
-        $car->combustible = $validatedData['combustible'];
-        $car->cambio = $validatedData['cambio'];
-        $car->motor = $validatedData['motor'];
-        $car->precio = $validatedData['precio'];
-        $car->user_id = auth()->user()->id;
+    // Validar los datos del formulario
+    $validatedData = $request->validate([
+        'marca' => 'required|string|max:255',
+        'modelo' => 'required|string|max:255',
+        'color' => 'required|string|max:255',
+        'imagen_principal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'imagenes_adicionales.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'anio' => 'required|integer',
+        'kilometraje' => 'required|integer',
+        'distintivo_ambiental' => 'required|string|max:255',
+        'combustible' => 'required|string|max:255',
+        'cambio' => 'required|string|max:255',
+        'motor' => 'required|string|max:255',
+        'precio' => 'required|numeric',
+        'descripcion' => 'nullable|string|max:1000'
+    ]);
 
-        $car->save();
+    Log::info('Datos validados:', $validatedData);
 
-        // Manejar la subida de las imágenes
-        if ($request->hasFile('imagenes')) {
-            $userId = Auth::id();
-            $userName = Auth::user()->username;
-            $i = 0;
-            foreach ($request->file('imagenes') as $image) {
-                $path = $image->store('cars/' . $userId . '_' . $userName, 'public');
-                // Guardar la ruta de la imagen en la base de datos
-                if ($i == 0) {
-                    // Guardar la primera imagen como imagen principal
-                    $car->imagen = $path;
-                    $car->save();
-                } else {
-                    $car->images()->create(['image_path' => $path]);
-                }
-                $i++;
+    // Crear un nuevo objeto Car con los datos validados
+    $car = new Car();
+    $car->marca = $validatedData['marca'];
+    $car->modelo = $validatedData['modelo'];
+    $car->color = $validatedData['color'];
+    $car->anio = $validatedData['anio'];
+    $car->kilometraje = $validatedData['kilometraje'];
+    $car->distintivo_ambiental = $validatedData['distintivo_ambiental'];
+    $car->combustible = $validatedData['combustible'];
+    $car->cambio = $validatedData['cambio'];
+    $car->motor = $validatedData['motor'];
+    $car->precio = $validatedData['precio'];
+    $car->descripcion = $validatedData['descripcion'];
+    $car->user_id = auth()->user()->id;
+
+    // Guardar la imagen principal del coche en la tabla "cars"
+    if ($request->hasFile('imagen_principal') && $request->file('imagen_principal')->isValid()) {
+        $imagePath = $request->file('imagen_principal')->store('cars', 'public');
+        $car->imagen = $imagePath;
+        Log::info('Imagen principal del coche guardada en la tabla Cars.');
+    }
+
+    // Guardar el coche en la base de datos
+    $car->save();
+    Log::info('Coche guardado:', ['car_id' => $car->id]);
+
+    // Manejar la subida de imágenes adicionales
+    if ($request->hasFile('imagenes_adicionales')) {
+        Log::info('Inicio de la subida de imágenes adicionales.');
+        foreach ($request->file('imagenes_adicionales') as $image) {
+            if ($image->isValid()) {
+                $imagePath = $image->store('cars', 'public');
+                // Guardar la ruta de la imagen en la tabla "car_images"
+                $car->images()->create(['image_path' => $imagePath]);
+                Log::info('Imagen adicional del coche guardada en la tabla CarImages.');
             }
         }
-
-        // Redireccionar a la lista de coches con un mensaje de éxito
-        return redirect()->route('home')->with('success', 'Coche añadido correctamente');
+        Log::info('Proceso de subida de imágenes adicionales completado.');
     }
+
+    // Redireccionar con mensaje de éxito
+    return redirect()->route('home')->with('success', 'Coche añadido correctamente');
+}
+
+
+
+
 
     public function edit(Car $car)
     {
@@ -105,62 +121,56 @@ class CarController extends Controller
     }
 
     public function update(Request $request, Car $car)
-{
-    $validatedData = $request->validate([
-        'marca' => 'required|string',
-        'modelo' => 'required|string',
-        'color' => 'required|string',
-        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'anio' => 'required|integer',
-        'kilometraje' => 'required|integer',
-        'distintivo_ambiental' => 'required|string',
-        'combustible' => 'required|string',
-        'cambio' => 'required|string',
-        'motor' => 'required|string',
-        'precio' => 'required|numeric',
-        'imagenes.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Permitir múltiples imágenes
-    ]);
+    {
+        $validatedData = $request->validate([
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'anio' => 'required|integer',
+            'kilometraje' => 'required|integer',
+            'distintivo_ambiental' => 'required|string|max:255',
+            'combustible' => 'required|string|max:255',
+            'cambio' => 'required|string|max:255',
+            'motor' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+            'descripcion' => 'nullable|string|max:1000',
+            'imagenes.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
 
-    $userId = Auth::id();
-    $userName = Auth::user()->username;
-    $userFolder = 'cars/' . $userId . '_' . $userName;
+        $userId = Auth::id();
+        $userName = Auth::user()->username;
+        $userFolder = 'cars/' . $userId . '_' . $userName;
 
-    // Manejar la imagen principal
-    if ($request->hasFile('imagen')) {
-        // Si el coche ya tiene una imagen, la borramos primero
-        if ($car->imagen) {
-            Storage::disk('public')->delete($car->imagen);
+        if ($request->hasFile('imagen')) {
+            if ($car->imagen) {
+                Storage::disk('public')->delete($car->imagen);
+            }
+            $imagePath = $request->file('imagen')->store($userFolder, 'public');
+            $validatedData['imagen'] = $imagePath;
         }
-        $imagePath = $request->file('imagen')->store($userFolder, 'public');
-        $validatedData['imagen'] = $imagePath; // Actualiza la ruta de la imagen principal en los datos validados
-    }
 
-    $car->update($validatedData); // Actualiza el modelo con los datos validados
+        $car->update($validatedData);
 
-// Manejar la subida de las imágenes adicionales
-if ($request->hasFile('imagenes')) {
-    foreach ($request->file('imagenes') as $image) {
-        $path = $image->store($userFolder, 'public');
-        $car->images()->create(['image_path' => $path]);
-    }
-}
-
-
-
-
-    // Manejar la eliminación de imágenes
-    if ($request->filled('remove_images')) {
-        foreach ($request->input('remove_images') as $imageId) {
-            $image = $car->images()->find($imageId);
-            if ($image) {
-                Storage::disk('public')->delete($image->image_path);
-                $image->delete();
+        if ($request->hasFile('imagenes')) {
+            foreach ($request->file('imagenes') as $image) {
+                $path = $image->store($userFolder, 'public');
+                $car->images()->create(['image_path' => $path]);
             }
         }
-    }
 
-    return redirect()->route('cars.index')->with('success', 'Coche actualizado correctamente');
-}
+        if ($request->filled('remove_images')) {
+            foreach ($request->input('remove_images') as $imageId) {
+                $image = $car->images()->find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->image_path);
+                    $image->delete();
+                }
+            }
+        }
+
+        return redirect()->route('cars.index')->with('success', 'Coche actualizado correctamente');
+    }
 
     public function destroy(Car $car)
     {
