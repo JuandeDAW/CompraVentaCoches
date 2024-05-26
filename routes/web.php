@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CocheFavoritoController;
 use App\Http\Controllers\OpcionesPerfilController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/miperfil/chats', [OpcionesPerfilController::class, 'chats'])->name('miperfil.chats');
         Route::get('/miperfil/editar', [OpcionesPerfilController::class, 'editar'])->name('miperfil.editar');
         Route::post('/miperfil/editar', [OpcionesPerfilController::class, 'actualizar'])->name('miperfil.actualizar');
-    
+
+        Route::post('/coches-favoritos/store', [CocheFavoritoController::class, 'store'])->name('coches.favoritos.store');
+        Route::delete('/coches-favoritos/{car_id}', [CocheFavoritoController::class, 'destroy'])->name('coches.favoritos.destroy');
 
 });
 

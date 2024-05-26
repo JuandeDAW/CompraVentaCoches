@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\CarImage;
+use App\Models\CocheFavorito;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -34,9 +35,14 @@ class CarController extends Controller
         return view('cars.index', compact('cars'));
     }
 
-    public function show(Car $car)
+    public function show($id)
     {
-        return view('cars.show', compact('car'));
+        $car = Car::find($id);
+        $isFavorite = CocheFavorito::where('user_id', auth()->user()->id)
+                                     ->where('car_id', $id)
+                                     ->exists();
+
+        return view('cars.show', compact('car', 'isFavorite'));
     }
 
     public function create()
@@ -84,7 +90,9 @@ class CarController extends Controller
 
     // Guardar la imagen principal del coche en la tabla "cars"
     if ($request->hasFile('imagen_principal') && $request->file('imagen_principal')->isValid()) {
-        $imagePath = $request->file('imagen_principal')->store('cars', 'public');
+        $userId = auth()->user()->id;
+        $userName = auth()->user()->username;
+        $imagePath = $request->file('imagen_principal')->store('cars/' . $userId . '_' . $userName, 'public');
         $car->imagen = $imagePath;
         Log::info('Imagen principal del coche guardada en la tabla Cars.');
     }
@@ -98,7 +106,9 @@ class CarController extends Controller
         Log::info('Inicio de la subida de imágenes adicionales.');
         foreach ($request->file('imagenes_adicionales') as $image) {
             if ($image->isValid()) {
-                $imagePath = $image->store('cars', 'public');
+                $userId = auth()->user()->id;
+                $userName = auth()->user()->username;
+                $imagePath = $image->store('cars/' . $userId . '_' . $userName, 'public');
                 // Guardar la ruta de la imagen en la tabla "car_images"
                 $car->images()->create(['image_path' => $imagePath]);
                 Log::info('Imagen adicional del coche guardada en la tabla CarImages.');

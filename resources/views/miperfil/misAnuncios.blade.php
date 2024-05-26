@@ -10,7 +10,7 @@
                         <div class="card">
                             <div class="card-body">
                                 @if ($car->imagen)
-                                    <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}" onclick="openGallery({{ $loop->index + 1 }})">
+                                    <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}" onclick="openGallery({{ $car->id }})">
                                 @endif
                                 <h5 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
                                 <p class="card-text">
@@ -21,7 +21,8 @@
                                     Distintivo Ambiental: {{ $car->distintivo_ambiental }}<br>
                                     Combustible: {{ $car->combustible }}<br>
                                     Transmisión: {{ $car->cambio }}<br>
-                                    Motor: {{ $car->motor }}
+                                    Motor: {{ $car->motor }}<br>
+                                    Descripción: {{ $car->descripcion }}
                                 </p>
                                 <div class="mt-3">
                                     <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-primary">Editar</a>
@@ -41,19 +42,8 @@
 
     <div id="gallery-modal" class="gallery-modal">
         <span class="close" onclick="closeGallery()">&times;</span>
-        <div class="gallery-content">
-            @foreach($cars as $index => $car)
-                @if ($car->imagen)
-                    <div class="gallery-slide">
-                        <img src="{{ asset('storage/' . $car->imagen) }}" class="gallery-img" alt="{{ $car->marca }} {{ $car->modelo }}">
-                    </div>
-                @endif
-                @foreach($car->images as $image)
-                    <div class="gallery-slide">
-                        <img src="{{ asset('storage/' . $image->image_path) }}" class="gallery-img" alt="{{ $car->marca }} {{ $car->modelo }}">
-                    </div>
-                @endforeach
-            @endforeach
+        <div class="gallery-content" id="gallery-content">
+            <!-- Las diapositivas se insertarán dinámicamente -->
         </div>
         <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
         <a class="next" onclick="changeSlide(1)">&#10095;</a>
@@ -136,10 +126,36 @@
 
     <script>
     let slideIndex = 1;
+    let carImages = @json($cars->mapWithKeys(function ($car) {
+        return [$car->id => [
+            'main_image' => $car->imagen ? asset('storage/' . $car->imagen) : null,
+            'additional_images' => $car->images->map(function ($image) {
+                return asset('storage/' . $image->image_path);
+            })
+        ]];
+    }));
 
-    function openGallery(n) {
+    function openGallery(carId) {
+        const galleryContent = document.getElementById('gallery-content');
+        galleryContent.innerHTML = ''; // Limpiar el contenido anterior
+
+        const images = carImages[carId];
+        if (images.main_image) {
+            let mainImage = document.createElement('div');
+            mainImage.classList.add('gallery-slide');
+            mainImage.innerHTML = `<img src="${images.main_image}" class="gallery-img" alt="Imagen Principal">`;
+            galleryContent.appendChild(mainImage);
+        }
+
+        images.additional_images.forEach(imagePath => {
+            let additionalImage = document.createElement('div');
+            additionalImage.classList.add('gallery-slide');
+            additionalImage.innerHTML = `<img src="${imagePath}" class="gallery-img" alt="Imagen Adicional">`;
+            galleryContent.appendChild(additionalImage);
+        });
+
         document.getElementById('gallery-modal').style.display = 'block';
-        showSlides(slideIndex = n);
+        showSlides(slideIndex = 1);
     }
 
     function closeGallery() {
@@ -152,8 +168,8 @@
 
     function showSlides(n) {
         let slides = document.getElementsByClassName('gallery-slide');
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
+        if (n > slides.length) { slideIndex = 1; }
+        if (n < 1) { slideIndex = slides.length; }
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = 'none';
         }

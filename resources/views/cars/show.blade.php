@@ -9,7 +9,13 @@
                 <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}" onclick="openGallery(1)">
             @endif
             <div class="card-body">
-                <h5 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
+                <h5 class="card-title">
+                    <span>{{ $car->marca }} {{ $car->modelo }}</span>
+                    <button class="btn-like{{ $isFavorite ? ' liked' : '' }}" onclick="toggleLike(this)" title="Guardar como favorito" data-car-id="{{ $car->id }}">
+                    <i class="{{ $isFavorite ? 'fa-solid' : 'far' }} fa-heart"></i>
+                    </button>
+
+                </h5>
                 <p class="card-text">
                     Año: {{ $car->anio }}<br>
                     Kilometraje: {{ $car->kilometraje }} km<br>
@@ -18,7 +24,8 @@
                     Distintivo Ambiental: {{ $car->distintivo_ambiental }}<br>
                     Combustible: {{ $car->combustible }}<br>
                     Transmisión: {{ $car->cambio }}<br>
-                    Motor: {{ $car->motor }}
+                    Motor: {{ $car->motor }}<br>
+                    Descripción: {{ $car->descripcion }}
                 </p>
             </div>
         </div>
@@ -39,6 +46,10 @@
 </div>
 
 <style>
+.card-title span {
+    font-size: 35px;
+}
+
 .gallery-modal {
     display: none;
     position: fixed;
@@ -82,7 +93,8 @@
     cursor: pointer;
 }
 
-.prev, .next {
+.prev,
+.next {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -103,8 +115,30 @@
     right: 0;
 }
 
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn-like {
+    background: none;
+    border: none;
+    float: right;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-like:hover {
+    color: red;
+}
+
+.btn-like.liked {
+    color: red;
+}
+
+.btn-like:focus {
+    outline: none;
 }
 </style>
 
@@ -113,7 +147,7 @@ let slideIndex = 1;
 
 function openGallery(n) {
     document.getElementById('gallery-modal').style.display = 'block';
-    showSlides(slideIndex = n);
+    showSlides((slideIndex = n));
 }
 
 function closeGallery() {
@@ -121,23 +155,69 @@ function closeGallery() {
 }
 
 function changeSlide(n) {
-    showSlides(slideIndex += n);
+    showSlides((slideIndex += n));
 }
 
 function showSlides(n) {
     let slides = document.getElementsByClassName('gallery-slide');
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
+    if (n > slides.length) {
+        slideIndex = 1;
+    }
+    if (n < 1) {
+        slideIndex = slides.length;
+    }
     for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = 'none';
     }
     slides[slideIndex - 1].style.display = 'block';
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == document.getElementById('gallery-modal')) {
         closeGallery();
     }
 }
+
+function toggleLike(button) {
+    event.preventDefault();
+    button.classList.toggle('liked');
+    let icon = button.querySelector('i');
+    let carId = button.getAttribute('data-car-id'); // Obtén el ID del coche desde el atributo data-car-id
+    if (button.classList.contains('liked')) {
+        icon.classList.remove('far', 'fa-heart');
+        icon.classList.add('fa-solid', 'fa-heart');
+        // Enviar solicitud AJAX para guardar el coche como favorito
+        fetch('/coches-favoritos/store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ car_id: carId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Manejar la respuesta si es necesario
+            console.log(data);
+        });
+    } else {
+        icon.classList.remove('fa-solid', 'fa-heart');
+        icon.classList.add('far', 'fa-heart');
+        // Enviar solicitud AJAX para eliminar el coche de favoritos
+        fetch(`/coches-favoritos/${carId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Manejar la respuesta si es necesario
+            console.log(data);
+        });
+    }
+}
+
 </script>
 @endsection
