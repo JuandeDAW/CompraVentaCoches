@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CocheFavoritoController;
 use App\Http\Controllers\ComprasCocheController;
 use App\Http\Controllers\OpcionesPerfilController;
@@ -52,9 +53,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/coches-favoritos/store', [CocheFavoritoController::class, 'store'])->name('coches.favoritos.store');
         Route::delete('/coches-favoritos/{car_id}', [CocheFavoritoController::class, 'destroy'])->name('coches.favoritos.destroy');
 
-
-        //Compra de coches
-        Route::post('/compras-coches/store', [ComprasCocheController::class, 'store'])->name('compras_coches.store');
+        //Chats entre usuarios
+        Route::get('/miperfil/chats', [ChatController::class, 'index'])->name('miperfil.chats');
+        Route::get('/miperfil/chats/{carId}', [ChatController::class, 'show'])->name('miperfil.chat');
+        Route::post('/miperfil/chats/{carId}', [ChatController::class, 'sendMessage'])->name('miperfil.chat.send');
 
 });
 

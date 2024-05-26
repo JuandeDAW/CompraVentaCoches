@@ -14,7 +14,6 @@
                     <button class="btn-like{{ $isFavorite ? ' liked' : '' }}" onclick="toggleLike(this)" title="Guardar como favorito" data-car-id="{{ $car->id }}">
                     <i class="{{ $isFavorite ? 'fa-solid' : 'far' }} fa-heart"></i>
                     </button>
-
                 </h5>
                 <p class="card-text">
                     Año: {{ $car->anio }}<br>
@@ -28,11 +27,11 @@
                     Descripción: {{ $car->descripcion }}
                 </p>
                 <div class="mt-4">
-            <button class="btn btn-primary" onclick="openMetodoPagoForm()">Comprar</button>
-            <button class="btn btn-success" onclick="openChat()">Chatear</button>
-        </div>
+                    <a href="{{ route('miperfil.chat', $car->id) }}" class="btn btn-success">Chatear</a>
+                </div>
             </div>
         </div>
+        <!-- Código para la galería de imágenes -->
         <div class="mt-4">
             <div id="gallery-modal" class="gallery-modal">
                 <span class="close" onclick="closeGallery()">&times;</span>
@@ -50,7 +49,6 @@
 </div>
 
 </div>
-@include('miperfil.metodo_pago')
 <style>
 .card-title span {
     font-size: 35px;
@@ -223,9 +221,6 @@ function toggleLike(button) {
             console.log(data);
         });
     }
-}
-function openMetodoPagoForm() {
-    document.getElementById('metodoPagoForm').style.display = 'block';
 }
 </script>
 @endsection
