@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('miperfil.edit')
 
 @section('content')
     <h1>Mis Compras</h1>

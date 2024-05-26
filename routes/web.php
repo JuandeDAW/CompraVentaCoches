@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CocheFavoritoController;
+use App\Http\Controllers\ComprasCocheController;
 use App\Http\Controllers\OpcionesPerfilController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -47,8 +48,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/miperfil/editar', [OpcionesPerfilController::class, 'editar'])->name('miperfil.editar');
         Route::post('/miperfil/editar', [OpcionesPerfilController::class, 'actualizar'])->name('miperfil.actualizar');
 
+        //Guardar coches como favoritos
         Route::post('/coches-favoritos/store', [CocheFavoritoController::class, 'store'])->name('coches.favoritos.store');
         Route::delete('/coches-favoritos/{car_id}', [CocheFavoritoController::class, 'destroy'])->name('coches.favoritos.destroy');
+
+
+        //Compra de coches
+        Route::post('/compras-coches/store', [ComprasCocheController::class, 'store'])->name('compras_coches.store');
 
 });
 

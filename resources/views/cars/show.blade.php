@@ -27,6 +27,10 @@
                     Motor: {{ $car->motor }}<br>
                     Descripción: {{ $car->descripcion }}
                 </p>
+                <div class="mt-4">
+            <button class="btn btn-primary" onclick="openMetodoPagoForm()">Comprar</button>
+            <button class="btn btn-success" onclick="openChat()">Chatear</button>
+        </div>
             </div>
         </div>
         <div class="mt-4">
@@ -45,6 +49,8 @@
     </div>
 </div>
 
+</div>
+@include('miperfil.metodo_pago')
 <style>
 .card-title span {
     font-size: 35px;
@@ -172,7 +178,7 @@ function showSlides(n) {
     slides[slideIndex - 1].style.display = 'block';
 }
 
-window.onclick = function (event) {
+window.onclick  = function (event) {
     if (event.target == document.getElementById('gallery-modal')) {
         closeGallery();
     }
@@ -218,6 +224,8 @@ function toggleLike(button) {
         });
     }
 }
-
+function openMetodoPagoForm() {
+    document.getElementById('metodoPagoForm').style.display = 'block';
+}
 </script>
 @endsection

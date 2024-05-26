@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="content mt-5">
-        <h1 class="text-center">Mis Favoritos</h1>
+        <h1 >Mis Favoritos</h1>
         <div class="row">
             @foreach($favoritos as $favorito)
                 <div class="col-md-4">
