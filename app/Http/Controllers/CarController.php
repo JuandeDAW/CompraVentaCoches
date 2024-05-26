@@ -38,12 +38,17 @@ class CarController extends Controller
     public function show($id)
     {
         $car = Car::find($id);
-        $isFavorite = CocheFavorito::where('user_id', auth()->user()->id)
-                                     ->where('car_id', $id)
-                                     ->exists();
-
+        $isFavorite = false;
+    
+        if (auth()->check()) {
+            $isFavorite = CocheFavorito::where('user_id', auth()->user()->id)
+                                       ->where('car_id', $id)
+                                       ->exists();
+        }
+    
         return view('cars.show', compact('car', 'isFavorite'));
     }
+    
 
     public function create()
     {

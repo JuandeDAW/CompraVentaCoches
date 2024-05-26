@@ -35,9 +35,6 @@
                 <li>
                     <a href="{{ route('miperfil.chats') }}">
                         Chats
-                        @if (isset($unreadMessagesCount) && $unreadMessagesCount > 0)
-                            <span class="badge badge-danger">{{ $unreadMessagesCount }}</span>
-                        @endif
                     </a>
                 </li>
                 <li><a href="{{ route('miperfil.editar') }}">Editar perfil</a></li>

@@ -12,7 +12,7 @@
                 <h5 class="card-title">
                     <span>{{ $car->marca }} {{ $car->modelo }}</span>
                     <button class="btn-like{{ $isFavorite ? ' liked' : '' }}" onclick="toggleLike(this)" title="Guardar como favorito" data-car-id="{{ $car->id }}">
-                    <i class="{{ $isFavorite ? 'fa-solid' : 'far' }} fa-heart"></i>
+                        <i class="{{ $isFavorite ? 'fa-solid' : 'far' }} fa-heart"></i>
                     </button>
                 </h5>
                 <p class="card-text">
@@ -27,7 +27,11 @@
                     Descripción: {{ $car->descripcion }}
                 </p>
                 <div class="mt-4">
-                    <a href="{{ route('miperfil.chat', $car->id) }}" class="btn btn-success">Chatear</a>
+                    @if(auth()->check())
+                        <a href="{{ route('miperfil.chat', $car->id) }}" class="btn btn-success">Chatear</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-success">Iniciar sesión para chatear</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -48,7 +52,6 @@
     </div>
 </div>
 
-</div>
 <style>
 .card-title span {
     font-size: 35px;
