@@ -9,6 +9,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('bootstrap.min.css') }}">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
     <style>
         body {
             background-color: #f8f9fa;
@@ -77,15 +79,23 @@
                                 <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
                             </li>
                         @else
+                            @if(auth()->user()->profile == 'admin')
+                            <li class="nav-item">
+                                 <a class="nav-link" href="{{ route('statistics.index')}}">Estadisticas</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('usuarios.index') }}">Gestión Usuarios</a>
                             </li>
+
+                            @endif
+                            @if(auth()->user()->profile == 'cliente')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('miperfil.misAnuncios') }}">Mi Perfil</a>
                             </li>
                             <li class="nav-item">
                                 <a class="btn btn-primary" href="{{ route('create') }}">Subir Coche</a>
                             </li>
+                            @endif
                             <li class="nav-item">
                                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                     @csrf
@@ -104,5 +114,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

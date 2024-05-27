@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\StatisticsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,7 @@ Route::get('/cars/search', [CarController::class, 'search'])->name('cars.search'
 Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
     Route::get('/create', [CarController::class, 'create'])->name('create');
     Route::post('/cars', [CarController::class, 'store'])->name('store');
@@ -34,10 +36,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //Ruta gestion usuarios
-    Route::resource('usuarios', UsuarioController::class);
-   
-    Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');
+    //Ruta gestion usuarios (admin)
+    Route::middleware(['admin'])->group(function () {
+        Route::resource('usuarios', UsuarioController::class);
+        Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');
+        Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+    });
+
  
         //Opciones perfil
         Route::get('/miperfil/compras', [OpcionesPerfilController::class, 'compras'])->name('miperfil.compras');

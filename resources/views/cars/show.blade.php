@@ -28,10 +28,24 @@
                 </p>
                 <div class="mt-4">
                     @if(auth()->check())
+                         @if(auth()->user()->profile == 'cliente')
                         <a href="{{ route('miperfil.chat', $car->id) }}" class="btn btn-success">Chatear</a>
+                        @endif
                     @else
                         <a href="{{ route('login') }}" class="btn btn-success">Iniciar sesión para chatear</a>
-                    @endif
+                    @endif 
+                    @if(auth()->check())
+                                @if(auth()->user()->profile == 'admin')
+                            <div class="mt-3">
+                                    <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-primary">Editar</a>
+                                    <form action="{{ route('cars.destroy', $car->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este coche?')">Eliminar</button>
+                                    </form>
+                                </div>
+                                 @endif
+                     @endif
                 </div>
             </div>
         </div>

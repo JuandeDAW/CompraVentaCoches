@@ -85,7 +85,7 @@
                         <td>{{ $car->precio }}</td>
                     
                         <td>
-                            <a href="" class="anuncio">Ver anuncio</a>
+                            <a href="{{ route('cars.show', $car->id) }}" class="anuncio">Ver anuncio</a>
                         </td>
                     </tr>
                 @endforeach

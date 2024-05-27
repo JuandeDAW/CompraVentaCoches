@@ -30,8 +30,11 @@
             <input type="text" name="username" class="form-control" value="{{ $usuario->username }}" required>
         </div>
         <div class="form-group">
-            <label for="profile">Perfil (admin/cliente)</label>
-            <input type="text" name="profile" class="form-control" value="{{ $usuario->profile}}" required>
+                <label for="profile">Perfil</label>
+                <select id="profile" name="profile" class="form-control" required>
+                    <option value="cliente" {{ $usuario->profile === 'cliente' ? 'selected' : '' }}>Cliente</option>
+                    <option value="admin" {{ $usuario->profile === 'admin' ? 'selected' : '' }}>Admin</option>
+                </select>
         </div>
         <div class="form-group">
             <label for="password">Contraseña</label>

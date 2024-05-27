@@ -19,6 +19,7 @@
                                 Kilometraje: {{ $car->kilometraje }} km<br>
                             </p>
                             <a href="{{ route('cars.show', $car->id) }}" class="btn btn-primary">Ver Detalles</a>
+                            
                         </div>
                     </div>
                 </div>
