@@ -9,12 +9,11 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('bootstrap.min.css') }}">
+  
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
+   
         .navbar-nav .nav-item .nav-link {
             color: black;
         }
@@ -23,6 +22,7 @@
         }
         .navbar-nav .nav-item .btn {
             color: #fff;
+            margin-left:10px
         }
         .car-card img {
             height: 200px;
@@ -43,8 +43,9 @@
             border-radius: .25rem;
         }
         .navbar-brand img {
-            height: 100px; 
+            height: 140px; 
             width: auto; 
+            margin:0% auto;
             
         }
     </style>
@@ -53,9 +54,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('images/WALLACAR.png') }}" alt="Logo" > 
-                </a>
+                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -68,6 +67,9 @@
                     </ul>
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('images/WALLACAR_REC.png') }}" alt="Logo" > 
+                </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -107,7 +109,23 @@
                 </div>
             </div>
         </nav>
-        <main class="py-4">
+    <div class="sort-options">
+        <div class="col-12">
+            <form method="GET" action="{{ route('cars.sort') }}" class="form-inline">
+                <div class="form-group mr-2">
+                    <label for="sort" class="mr-2">Ordenar por:</label>
+                    <select name="sort" id="sort" class="form-control">
+                        <option value="price_asc">Precio Ascendente</option>
+                        <option value="price_desc">Precio Descendente</option>
+                        <option value="date_asc">Fecha Ascendente</option>
+                        <option value="date_desc">Fecha Descendente</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Ordenar</button>
+            </form>
+        </div>
+    </div>
+        <main class="bg-custom">
             @yield('content')
         </main>
     </div>

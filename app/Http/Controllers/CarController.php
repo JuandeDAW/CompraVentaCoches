@@ -16,6 +16,7 @@ class CarController extends Controller
     public function index()
     {
         $cars = Car::all();
+        
         return view('cars.index', compact('cars'));
     }
 
@@ -26,6 +27,33 @@ class CarController extends Controller
         return view('GestionCochesUsuarios.index', compact('us', 'cars'));
     }
 
+
+    public function sort(Request $request)
+{
+    $sortOption = $request->input('sort');
+    
+    switch ($sortOption) {
+        case 'price_asc':
+            $cars = Car::orderBy('precio', 'asc')->get();
+            break;
+        case 'price_desc':
+            $cars = Car::orderBy('precio', 'desc')->get();
+            break;
+        case 'date_asc':
+            $cars = Car::orderBy('created_at', 'asc')->get();
+            break;
+        case 'date_desc':
+            $cars = Car::orderBy('created_at', 'desc')->get();
+            break;
+        default:
+            $cars = Car::all();
+    }
+
+    return view('cars.index', compact('cars'));
+}
+
+
+
     public function search(Request $request)
     {
         $query = $request->input('query');
@@ -34,6 +62,10 @@ class CarController extends Controller
                     ->get();
         return view('cars.index', compact('cars'));
     }
+
+ 
+
+
 
     public function show($id)
     {

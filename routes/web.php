@@ -22,6 +22,8 @@ Route::get('/cars', function () {
 Route::get('/', [CarController::class, 'index'])->name('home');
 Route::get('/cars/search', [CarController::class, 'search'])->name('cars.search');
 Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
+Route::get('/sort', [CarController::class, 'sort'])->name('cars.sort');
+
 
 Route::middleware('auth')->group(function () {
 
@@ -35,8 +37,10 @@ Route::middleware('auth')->group(function () {
     
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+  
 
     //Ruta gestion usuarios (admin)
+
     Route::middleware(['admin'])->group(function () {
         Route::resource('usuarios', UsuarioController::class);
         Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');
