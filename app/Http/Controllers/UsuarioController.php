@@ -11,18 +11,36 @@ use Illuminate\Http\Request;
 class UsuarioController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::check() && Auth::user()->profile == 'admin') {
+                return $next($request);
+            } else {
+                abort(403); 
+            }
+        });
+    }
+        
+        
     public function index(Request $request)
     {
-        $query = User::query();
+        if (auth()->check() && auth()->user()->profile == 'admin') {
+            $query = User::query();
 
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('email', 'like', '%' . $request->search . '%')
-                  ->orWhere('username', 'like', '%' . $request->search . '%');
+            if ($request->has('search')) {
+                $query->where('name', 'like', '%' . $request->search . '%')
+                      ->orWhere('email', 'like', '%' . $request->search . '%')
+                      ->orWhere('username', 'like', '%' . $request->search . '%');
+            }
+    
+            $usuarios = $query->paginate(10);
+            return view('usuarios.GestionUsuarios', compact('usuarios'));
+            
+        } else {
+            abort(403); 
         }
-
-        $usuarios = $query->paginate(10);
-        return view('usuarios.GestionUsuarios', compact('usuarios'));
+      
     }
 
     public function create()

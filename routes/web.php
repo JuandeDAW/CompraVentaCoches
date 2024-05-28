@@ -40,12 +40,11 @@ Route::middleware('auth')->group(function () {
   
 
     //Ruta gestion usuarios (admin)
-
-    Route::middleware(['admin'])->group(function () {
+   
         Route::resource('usuarios', UsuarioController::class);
         Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');
         Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
-    });
+    
 
  
         //Opciones perfil
