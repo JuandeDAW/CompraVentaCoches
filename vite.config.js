@@ -11,4 +11,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+     
+    build: {
+        rollupOptions: {
+          external: ['google-charts'], 
+        },
+      },
 });
