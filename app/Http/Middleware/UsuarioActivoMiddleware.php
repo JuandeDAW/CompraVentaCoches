@@ -16,7 +16,7 @@ class UsuarioActivoMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && !Auth::user()->active) {
+        if (Auth::check() && !Auth::user()->activo) {
             Auth::logout(); 
             return redirect()->route('login')->with('error', 'Tu cuenta ha sido desactivada. Por favor, contacta al administrador.');
         }

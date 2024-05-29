@@ -26,7 +26,7 @@ Route::get('/sort', [CarController::class, 'sort'])->name('cars.sort');
 
 
  //Usuarios autentificados
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'activo'])->group(function () {
     Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
     Route::get('/create', [CarController::class, 'create'])->name('create');
     Route::post('/cars', [CarController::class, 'store'])->name('store');
@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     
         //usuarios activos
         Route::group(['middleware' => ['activo']], function () {
-            Route::get('/perfil', 'PerfilController@index')->name('perfil');
+            
            
         });
  
