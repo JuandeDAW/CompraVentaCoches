@@ -7,19 +7,20 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class UsuarioActivoMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->profile == 'admin') {
-            return $next($request);
+        if (Auth::check() && !Auth::user()->active) {
+            Auth::logout(); 
+            return redirect()->route('login')->with('error', 'Tu cuenta ha sido desactivada. Por favor, contacta al administrador.');
         }
 
-        abort(403, 'Acceso no autorizado.'); 
+        return $next($request);
     }
 }

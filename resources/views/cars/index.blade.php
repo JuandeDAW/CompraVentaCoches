@@ -2,8 +2,24 @@
 
 @section('content')
 <div class="container">
+    <div class="sort-options">
+            <div class="col-12">
+                <form method="GET" action="{{ route('cars.sort') }}" class="form-inline">
+                    <div class="form-group mr-2">
+                        <label for="sort" class="mr-2">Ordenar por:</label>
+                        <select name="sort" id="sort" class="form-control">
+                            <option value="price_asc">Precio Ascendente</option>
+                            <option value="price_desc">Precio Descendente</option>
+                            <option value="date_asc">Fecha Ascendente</option>
+                            <option value="date_desc">Fecha Descendente</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ordenar</button>
+                </form>
+            </div>
+        </div>
     <div class="content mt-5">
-        <h1 class="text-center">Coches Disponibles</h1>
+        <h1 class="text-center">Coches Disponibles</h1> <br>
         <div class="row">
             @foreach($cars as $car)
                 <div class="col-md-4">

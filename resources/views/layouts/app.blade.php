@@ -29,18 +29,19 @@
             object-fit: cover;
         }
         .form-control {
-            height: calc(1.5em + .75rem + 2px);
-            padding: .375rem .75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-radius: .25rem;
-        }
+            height: 38px; 
+            padding: 9px 18px; 
+            font-size: 16px; 
+            line-height: 24px; 
+            border-radius: 4px; 
+}
+
         .form-control-file {
-            height: calc(1.5em + .75rem + 2px);
-            padding: .375rem .75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-radius: .25rem;
+            height: 38px; 
+            padding: 9px 18px; 
+            font-size: 16px; 
+            line-height: 24px; 
+            border-radius: 4px; 
         }
         .navbar-brand img {
             height: 140px; 
@@ -48,6 +49,13 @@
             margin:0% auto;
             
         }
+        .navbar {
+        margin-bottom: 0; 
+        padding-bottom: 0; 
+    }
+    .bg-custom{
+       padding-top:30px
+    }
     </style>
 </head>
 <body>
@@ -109,22 +117,6 @@
                 </div>
             </div>
         </nav>
-    <div class="sort-options">
-        <div class="col-12">
-            <form method="GET" action="{{ route('cars.sort') }}" class="form-inline">
-                <div class="form-group mr-2">
-                    <label for="sort" class="mr-2">Ordenar por:</label>
-                    <select name="sort" id="sort" class="form-control">
-                        <option value="price_asc">Precio Ascendente</option>
-                        <option value="price_desc">Precio Descendente</option>
-                        <option value="date_asc">Fecha Ascendente</option>
-                        <option value="date_desc">Fecha Descendente</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Ordenar</button>
-            </form>
-        </div>
-    </div>
         <main class="bg-custom">
             @yield('content')
         </main>

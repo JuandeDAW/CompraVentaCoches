@@ -7,6 +7,7 @@
 <head>
 <link rel="stylesheet" href="{{ asset('bootstrap.min.css') }}">
 
+
 <style>
     
 
@@ -70,7 +71,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cars as $car)
+
+               
+                @forelse ($cars as $car)
                     <tr>
                         <td>{{ $car->marca }}</td>
                         <td>{{ $car->modelo }}</td>
@@ -88,7 +91,13 @@
                             <a href="{{ route('cars.show', $car->id) }}" class="anuncio">Ver anuncio</a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="12">Este usuario no tiene Vehiculos publicados</td>
+                </tr>
+                @endforelse
+                
+                
             </tbody>
         </table>
     </div>

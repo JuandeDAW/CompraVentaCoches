@@ -24,15 +24,11 @@ class CarController extends Controller
 
     public function UserCar($id)
     {
-        if (auth()->check() && auth()->user()->profile == 'admin') {
 
-            $us = User::find($id);
+             $us = User::find($id);
             $cars = $us->cars;
             return view('GestionCochesUsuarios.index', compact('us', 'cars'));
             
-        } else {
-            abort(403);
-        }
     }
 
 

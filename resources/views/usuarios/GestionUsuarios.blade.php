@@ -40,13 +40,30 @@
                         <td>{{$usuario->created_at}}</td>
                         <td>{{$usuario->profile}}</td>
                     <td>
-                        <a href="{{ route('cars.user', $usuario->id) }}" class="btn btn-info">Ver Anuncios</a>
+                       
+                        @if ($usuario->activo)
+                            <form action="{{ route('usuarios.desactivar', $usuario->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-warning">Desactivar</button>
+                            </form>
+                        @else
+                            <form action="{{ route('usuarios.activar', $usuario->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success">Activar</button>
+                            </form>
+                        @endif
                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-primary">Editar</a> 
+
+                       
+
                         <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
                         </form>
+                        <a href="{{ route('cars.user', $usuario->id) }}" class="btn btn-info">Ver Anuncios</a>
                     </td>
                 </tr>
             @endforeach

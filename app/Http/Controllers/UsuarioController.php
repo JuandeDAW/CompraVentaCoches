@@ -11,16 +11,25 @@ use Illuminate\Http\Request;
 class UsuarioController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (Auth::check() && Auth::user()->profile == 'admin') {
-                return $next($request);
-            } else {
-                abort(403); 
-            }
-        });
-    }
+   
+
+    public function activar($id)
+        {
+            $user = User::findOrFail($id);
+            $user->activo = true;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Usuario activado correctamente.');
+        }
+
+    public function desactivar($id)
+        {
+            $user = User::findOrFail($id);
+            $user->activo = false;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Usuario desactivado correctamente.');
+        }
         
         
     public function index(Request $request)

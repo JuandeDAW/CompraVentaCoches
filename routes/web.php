@@ -25,8 +25,8 @@ Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 Route::get('/sort', [CarController::class, 'sort'])->name('cars.sort');
 
 
+ //Usuarios autentificados
 Route::middleware('auth')->group(function () {
-
     Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
     Route::get('/create', [CarController::class, 'create'])->name('create');
     Route::post('/cars', [CarController::class, 'store'])->name('store');
@@ -40,12 +40,22 @@ Route::middleware('auth')->group(function () {
   
 
     //Ruta gestion usuarios (admin)
-   
+
+    Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('usuarios', UsuarioController::class);
         Route::get('/user/{id}', [CarController::class, 'UserCar'])->name('cars.user');
         Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+        Route::put('/usuarios/{id}/activar', [UsuarioController::class, 'activar'])->name('usuarios.activar');
+        Route::put('/usuarios/{id}/desactivar', [UsuarioController::class, 'desactivar'])->name('usuarios.desactivar');
+           
+        });
+       
     
-
+        //usuarios activos
+        Route::group(['middleware' => ['activo']], function () {
+            Route::get('/perfil', 'PerfilController@index')->name('perfil');
+           
+        });
  
         //Opciones perfil
         Route::get('/miperfil/compras', [OpcionesPerfilController::class, 'compras'])->name('miperfil.compras');
