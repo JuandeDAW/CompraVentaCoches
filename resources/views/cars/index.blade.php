@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
+<img src="{{ asset('images/Banner.png') }}" alt="banner" id="banner">
     <div class="sort-options">
             <div class="col-12">
                 <form method="GET" action="{{ route('cars.sort') }}" class="form-inline">
@@ -29,7 +31,7 @@
                         @endif
                         <div class="card-body">
                             <h3 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h3>
-                            <h4>{{ number_format($car->precio) }}€</h4>
+                            <h4 id="card-subtitle">{{ number_format($car->precio) }}€</h4>
                             <p class="card-text">
                                 Año: {{ $car->anio }}<br>
                                 Kilometraje: {{ $car->kilometraje }} km<br>
@@ -41,6 +43,7 @@
                 </div>
             @endforeach
         </div>
+        {{ $cars->links() }}
     </div>
 </div>
 

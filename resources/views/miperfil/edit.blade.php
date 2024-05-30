@@ -21,7 +21,15 @@
                 <h3>Mi Perfil</h3>
             </div>
             <ul class="list-unstyled components">
-                <p>{{ auth()->user()->username }}</p>
+            <p>
+              @if(auth()->user()->profile_image)
+                <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Foto de perfil" class="profile-image">
+              @else
+                 <img src="{{ asset('images/default_profile.png') }}" alt="Foto de perfil" class="profile-image">
+              @endif
+    {{ auth()->user()->username }}
+</p>
+
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Historial</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -37,7 +45,7 @@
                         Chats
                     </a>
                 </li>
-                <li><a href="{{ route('miperfil.editar') }}">Editar perfil</a></li>
+                <li> <a href="{{ route('miperfil.editar') }}">Editar Perfil</a></li>
             </ul>
             <ul class="list-unstyled CTAs">
                 <li><a href="{{ route('cars.index') }}" id="volver">Volver</a></li>

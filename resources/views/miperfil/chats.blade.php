@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Mis Chats</h1>
     <div class="list-group">
-        @foreach($messages as $carId => $carMessages)
+        @forelse($messages as $carId => $carMessages)
             @php
                 $car = $carMessages->first()->car;
                 $lastMessage = $carMessages->last();
@@ -19,7 +19,19 @@
                     </div>
                 </div>
             </a>
-        @endforeach
+        @empty        
+                    <table>
+                     <tr>    
+                         <th><h4 >Todavia no tienes chats!</h4></th>
+                     </tr>
+                    <tr>
+                        <td><img src="{{ asset('images/cara-triste2.jpg') }}" alt="Emoji" width="150px" class="emoji"></td>
+                    </tr>
+                     <tr>
+                         <td><a href="{{ url('/') }}" class="boton-empty">Buscar Vehiculos</a></td>
+                    </tr>
+                    </table>
+        @endforelse
     </div>
 </div>
 @endsection

@@ -46,6 +46,10 @@ a, a:hover, a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
+.row{
+    margin-bottom: 20px;
+}
+
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
@@ -56,6 +60,12 @@ a, a:hover, a:focus {
     width: 100%;
     align-items: stretch;
     perspective: 1500px;
+}
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 
@@ -75,7 +85,8 @@ a, a:hover, a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: rgb(226, 35, 35);
+    background: rgb(0, 0, 0);
+    color: white;
 }
 
 #sidebar ul.components {
@@ -100,7 +111,7 @@ a, a:hover, a:focus {
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
-    background: rgb(226, 35, 35);
+    background: rgb(252, 71, 71);
 }
 
 
@@ -143,6 +154,26 @@ a.article, a.article:hover {
     background:rgb(226, 35, 35) !important;
     color: #fff !important;
 }
+.boton-empty{
+    background-color: #4495db;
+        border-color: #4495db;
+        padding: 5px;
+        color: white;
+        transition: background-color 0.3s ease;
+        width: 150px;
+        border-radius: 5px;
+        text-align: center;
+        
+}
+.boton.empty:hover {
+    background-color: #4495db;
+    border-color:#4495db;
+    color: white;
+}
+.emoji{
+    margin-bottom: 20px;
+}
+
 #volver {
   background-color: #f5f5f5;
   color: red;
@@ -232,8 +263,51 @@ a.article, a.article:hover {
 /* ---------------------------------------------------
     GESTION ANUNCIOS USUARIOS ADMIN
 ----------------------------------------------------- */
+  
 
+.main-cars {
+    margin: 20px;
+    text-align:center;
+    
+}
 
+.tabla {
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.tabla th{
+    background-color: red;
+    color: white;
+}
+.tabla td{
+    color: black;
+}
+.tabla th, .tabla td {
+    border: 1px solid #000000;
+    padding: 8px;
+    text-align: center;
+    
+}
+.tabla td:nth-child(4) {
+    max-width: 200px; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
+
+#name {
+    margin-bottom: 20px;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.anuncio {
+   
+    color: #007bff; 
+}
 
 /* ---------------------------------------------------
    BARRA DE NAVEGACION PRINCIPAL
@@ -257,15 +331,40 @@ a.article, a.article:hover {
   }
   
   .bg-custom {
-   
-    
-    background-color: hsl(0, 73%, 83%); 
+    background: linear-gradient(to bottom, white, rgb(209, 209, 209)); 
+    color: rgb(255, 1, 1);
+    padding-bottom: 20px;
 
   }
+  .card-title{
+    color:black;
+  }
+  #card-subtitle{
+    color:black;
+  }
+  
 
-
+  #banner{
+  
+    margin: 0% auto;
+    width: 1150px;
+    height: 150px;
+  }
     .sort-options {
         margin: 0% auto;
         padding: 15px;
     }
+
   
+
+/* ---------------------------------------------------
+   FOOTER
+----------------------------------------------------- */
+
+/* Estilo para el footer */
+footer.footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+    padding: 10px 0;
+}

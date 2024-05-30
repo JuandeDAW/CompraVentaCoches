@@ -120,6 +120,13 @@
         <main class="bg-custom">
             @yield('content')
         </main>
+
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container text-center">
+                <span class="text-muted">© {{ date('Y') }} Wallacar. Todos los derechos reservados.</span>
+            </div>
+        </footer>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

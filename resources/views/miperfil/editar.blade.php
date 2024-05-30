@@ -3,37 +3,29 @@
 @section('content')
 <div class="container mt-5">
     <h1 class="mb-4">Editar Perfil</h1>
-    <form action="{{ route('profile.update', auth()->user()->id) }}" method="POST" enctype="multipart/form-data">
+    
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    <form action="{{ route('miperfil.actualizar', auth()->user()->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
+        @method('PATCH')
         <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ auth()->user()->name }}">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}" required>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ auth()->user()->email }}">
+            <input type="email" name="email" class="form-control" value="{{ auth()->user()->email }}" required>
         </div>
         <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ auth()->user()->telefono }}">
+            <label for="username">Nombre de Usuario</label>
+            <input type="text" name="username" class="form-control" value="{{ auth()->user()->username }}" required>
         </div>
-        <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" value="{{ auth()->user()->direccion }}">
-        </div>
-        <div class="form-group">
-            <label for="avatar">Avatar</label>
-            <input type="file" class="form-control-file" id="avatar" name="avatar">
-        </div>
-        @if(auth()->user()->avatar)
-            <div class="form-group">
-                <label>Avatar Actual</label>
-                <div>
-                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" class="img-thumbnail" style="width: 150px;">
-                </div>
-            </div>
-        @endif
+        <label for="profile_image">Subir Foto de Perfil:</label>
+         <input type="file" name="profile_image" id="profile_image">
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Compra;
 use App\Models\Venta;
@@ -11,6 +11,7 @@ use App\Models\CompraCoche;
 use App\Models\Favourite;
 use App\Models\VentaCoche;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class OpcionesPerfilController extends Controller
 {
@@ -54,19 +55,47 @@ class OpcionesPerfilController extends Controller
 
     public function editar()
     {
+    
         return view('miperfil.editar');
     }
 
-    public function actualizar(Request $request)
+    public function actualizar(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+
         ]);
 
+
         $user = Auth::user();
-        $user->name = $request->name;
-        $user->email = $request->email;
+
+        // condicional para controlar que el usuario que ha iniciado sesion es el mismo que voy a actualizar
+        if ($user->id != $id) {
+            return redirect()->route('miperfil.edit', $user->id)->with('error', 'No tienes permiso para actualizar este perfil.');
+        }
+
+        // condicional que elimina la imagen anterior si tiene y añade la nueva
+        if ($request->hasFile('profile_image')) {
+            // Elimina la imagen anterior si existe
+            if ($user->profile_image && $user->profile_image != 'images/default_profile.png') {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+
+            // Guarda la nueva imagen
+            $path = $request->file('profile_image')->store('profile_images', 'public');
+            $user->profile_image = $path;
+        } else {
+            // Si no se subió ninguna imagen, mantener la imagen por defecto si no tiene una
+            if (!$user->profile_image) {
+                $user->profile_image = 'images/default_profile.png';
+            }
+        }
+       
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->username = $request->input('username');
         $user->save();
 
         return redirect()->route('miperfil.editar')->with('success', 'Perfil actualizado correctamente.');

@@ -44,7 +44,7 @@ class ChatController extends Controller
     {
         $request->validate([
             'message' => 'required|string|max:255',
-            'receiver_id' => 'required|exists:users,id', // Asegúrate de que el receiver_id es válido
+            'receiver_id' => 'required|exists:users,id', 
         ]);
     
         Message::create([

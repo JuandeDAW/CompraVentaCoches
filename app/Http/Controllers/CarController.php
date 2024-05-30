@@ -17,7 +17,7 @@ class CarController extends Controller
     public function index()
     {
      
-        $cars = Car::all();
+        $cars = Car::simplePaginate(9);
         
         return view('cars.index', compact('cars'));
     }
@@ -38,19 +38,19 @@ class CarController extends Controller
     
     switch ($sortOption) {
         case 'price_asc':
-            $cars = Car::orderBy('precio', 'asc')->get();
+            $cars = Car::orderBy('precio', 'asc')->paginate(9);
             break;
         case 'price_desc':
-            $cars = Car::orderBy('precio', 'desc')->get();
+            $cars = Car::orderBy('precio', 'desc')->paginate(9);
             break;
         case 'date_asc':
-            $cars = Car::orderBy('created_at', 'asc')->get();
+            $cars = Car::orderBy('created_at', 'asc')->paginate(9);
             break;
         case 'date_desc':
-            $cars = Car::orderBy('created_at', 'desc')->get();
+            $cars = Car::orderBy('created_at', 'desc')->paginate(9);
             break;
         default:
-            $cars = Car::all();
+        $cars = Car::paginate(9);
     }
 
     return view('cars.index', compact('cars'));

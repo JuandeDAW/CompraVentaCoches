@@ -8,43 +8,12 @@
 <link rel="stylesheet" href="{{ asset('bootstrap.min.css') }}">
 
 
-<style>
     
 
-        .main {
-            margin: 20px;
-            text-align:center;
-            
-        }
-
-        .tabla {
-            margin: 0 auto;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .tabla th, .tabla td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-            text-align: center;
-        }
-
-        #name {
-            margin-bottom: 20px;
-        }
-
-        .alert {
-            margin-top: 20px;
-        }
-
-        .anuncio {
-           
-            color: #007bff; /* Color azul para el enlace */
-        }
     </style>
 </head>
 <body>
-  <div class="main">
+  <div class="main-cars">
     <h1  id="name">Anuncios de {{ $us->username}}</h1>
 
     @if (session('success'))

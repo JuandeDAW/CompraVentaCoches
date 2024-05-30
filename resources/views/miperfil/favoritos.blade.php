@@ -5,7 +5,7 @@
     <div class="content mt-5">
         <h1 >Mis Favoritos</h1>
         <div class="row">
-            @foreach($favoritos as $favorito)
+            @forelse($favoritos as $favorito)
                 <div class="col-md-4">
                     <div class="card car-card" data-id="{{ $favorito->car->id }}">
                         @if ($favorito->car->imagen)
@@ -22,7 +22,20 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+
+                @empty
+                <table>
+                     <tr>    
+                         <th><h4 >Todavia no tienes vehiculos favoritos!</h4></th>
+                    </tr>
+                    <tr>
+                        <td><img src="{{ asset('images/cara-triste2.jpg') }}" alt="Emoji" width="150px" class="emoji"></td>
+                    </tr>
+                     <tr>
+                         <td><a href="{{ url('/') }}" class="boton-empty">Buscar Vehiculos</a></td>
+                    </tr>
+                    </table>
+            @endforelse
         </div>
     </div>
 </div>

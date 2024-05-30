@@ -5,7 +5,7 @@
         <div class="content mt-5">
             <h1>Mis Anuncios</h1>
             <div class="row">
-                @foreach($cars as $car)
+                @forelse($cars as $car)
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
@@ -35,7 +35,19 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <table>
+                     <tr>    
+                         <th><h4 >Todavia no tienes anuncios!</h4></th>
+                     </tr>
+                    <tr>
+                        <td><img src="{{ asset('images/cara-triste2.jpg') }}" alt="Emoji" width="150px" class="emoji"></td>
+                    </tr>
+                     <tr>
+                         <td><a href="{{ url('/create') }}" class="boton-empty">Subir Coche</a></td>
+                    </tr>
+                    </table>
+                @endforelse
             </div>
         </div>
     </div>

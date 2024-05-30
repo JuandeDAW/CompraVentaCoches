@@ -43,7 +43,7 @@ class UsuarioController extends Controller
                       ->orWhere('username', 'like', '%' . $request->search . '%');
             }
     
-            $usuarios = $query->paginate(10);
+            $usuarios = $query->simplePaginate(10);
             return view('usuarios.GestionUsuarios', compact('usuarios'));
             
         } else {

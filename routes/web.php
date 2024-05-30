@@ -25,7 +25,7 @@ Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show');
 Route::get('/sort', [CarController::class, 'sort'])->name('cars.sort');
 
 
- //Usuarios autentificados
+ //Usuarios autentificados y activos
 Route::middleware(['auth', 'activo'])->group(function () {
     Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
     Route::get('/create', [CarController::class, 'create'])->name('create');
@@ -51,11 +51,6 @@ Route::middleware(['auth', 'activo'])->group(function () {
         });
        
     
-        //usuarios activos
-        Route::group(['middleware' => ['activo']], function () {
-            
-           
-        });
  
         //Opciones perfil
         Route::get('/miperfil/compras', [OpcionesPerfilController::class, 'compras'])->name('miperfil.compras');
@@ -65,7 +60,7 @@ Route::middleware(['auth', 'activo'])->group(function () {
         Route::get('/miperfil/favoritos', [OpcionesPerfilController::class, 'favoritos'])->name('miperfil.favoritos');
         Route::get('/miperfil/chats', [OpcionesPerfilController::class, 'chats'])->name('miperfil.chats');
         Route::get('/miperfil/editar', [OpcionesPerfilController::class, 'editar'])->name('miperfil.editar');
-        Route::post('/miperfil/editar', [OpcionesPerfilController::class, 'actualizar'])->name('miperfil.actualizar');
+        Route::patch('/miperfil/editar/{id}', [OpcionesPerfilController::class, 'actualizar'])->name('miperfil.actualizar');
 
         //Guardar coches como favoritos
         Route::post('/coches-favoritos/store', [CocheFavoritoController::class, 'store'])->name('coches.favoritos.store');
