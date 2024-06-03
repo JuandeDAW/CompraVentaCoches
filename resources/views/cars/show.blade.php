@@ -27,9 +27,17 @@
                     Descripción: {{ $car->descripcion }}
                 </p>
                 <div class="mt-4">
+               <hr>
+              @if( $us->profile_image)
+                <img src="{{ asset('storage/' . $us->profile_image) }}" alt="Foto de perfil" class="profile-image">
+              @else
+                 <img src="{{ asset('images/default_profile.png') }}" alt="Foto de perfil" class="profile-image">
+              @endif
+                {{ $us->username }}
+            
                     @if(auth()->check())
                          @if(auth()->user()->profile == 'cliente')
-                        <a href="{{ route('miperfil.chat', $car->id) }}" class="btn btn-success">Chatear</a>
+                        <a href="{{ route('miperfil.chat', $car->id) }}" class="btn btn-success" id="chat-btn">Chatear</a>
                         @endif
                     @else
                         <a href="{{ route('login') }}" class="btn btn-success">Iniciar sesión para chatear</a>
