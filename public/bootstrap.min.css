@@ -354,8 +354,10 @@ a.article, a.article:hover {
         margin: 0% auto;
         padding: 15px;
     }
-
-  
+#chat-btn{ 
+   
+    margin-left: 100px;
+}  
 
 /* ---------------------------------------------------
    FOOTER

@@ -18,7 +18,6 @@ class CarController extends Controller
     {
      
         $cars = Car::simplePaginate(9);
-        
         return view('cars.index', compact('cars'));
     }
 
@@ -74,6 +73,7 @@ class CarController extends Controller
     public function show($id)
     {
         $car = Car::find($id);
+        $us = $car->user;
         $isFavorite = false;
     
         if (auth()->check()) {
@@ -82,7 +82,7 @@ class CarController extends Controller
                                        ->exists();
         }
     
-        return view('cars.show', compact('car', 'isFavorite'));
+        return view('cars.show', compact('car', 'isFavorite','us'));
     }
     
 
