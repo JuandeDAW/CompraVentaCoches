@@ -14,7 +14,7 @@ class AddProfileImageToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_image')->nullable()->after('email'); // Añade después de la columna 'email'
+            $table->string('profile_image')->nullable()->after('email');
         });
     }
 

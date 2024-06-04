@@ -24,8 +24,10 @@
             <label for="username">Nombre de Usuario</label>
             <input type="text" name="username" class="form-control" value="{{ auth()->user()->username }}" required>
         </div>
-        <label for="profile_image">Subir Foto de Perfil:</label>
+        <div class="form-group">
+        <label for="profile_image">Foto de Perfil</label> <br>
          <input type="file" name="profile_image" id="profile_image">
+         </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>

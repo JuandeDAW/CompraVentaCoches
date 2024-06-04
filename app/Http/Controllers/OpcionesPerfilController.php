@@ -76,21 +76,12 @@ class OpcionesPerfilController extends Controller
             return redirect()->route('miperfil.edit', $user->id)->with('error', 'No tienes permiso para actualizar este perfil.');
         }
 
-        // condicional que elimina la imagen anterior si tiene y añade la nueva
         if ($request->hasFile('profile_image')) {
-            // Elimina la imagen anterior si existe
-            if ($user->profile_image && $user->profile_image != 'images/default_profile.png') {
+            if ($user->profile_image) {
                 Storage::disk('public')->delete($user->profile_image);
             }
-
-            // Guarda la nueva imagen
             $path = $request->file('profile_image')->store('profile_images', 'public');
             $user->profile_image = $path;
-        } else {
-            // Si no se subió ninguna imagen, mantener la imagen por defecto si no tiene una
-            if (!$user->profile_image) {
-                $user->profile_image = 'images/default_profile.png';
-            }
         }
        
         $user->name = $request->input('name');

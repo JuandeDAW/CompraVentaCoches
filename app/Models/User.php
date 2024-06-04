@@ -51,14 +51,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Car::class);
     }
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($user) {
-            if (!$user->profile_image) {
-                $user->profile_image = 'images/default_profile.png';
-            }
-        });
-    }
+    
 }
