@@ -27,8 +27,8 @@
               @else
                  <img src="{{ asset('images/default_profile.png') }}" alt="Foto de perfil" class="profile-image">
               @endif
-    {{ auth()->user()->username }}
-</p>
+              {{ auth()->user()->username }}
+            </p>
 
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Historial</a>

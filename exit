@@ -1,0 +1,192 @@
+[33mcommit 169d62b3722463139aeab8736f1bd6a1ecd61fa0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Mon Jun 3 19:01:24 2024 +0200
+
+    storage
+
+[33mcommit 6f0888f5b484fd8ac9af65ed53544ffb51be6de8[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Mon Jun 3 10:27:15 2024 +0200
+
+    Edicion de estilos coches
+
+[33mcommit 419d78b6f47b432cf30b1edf81371a9422f7e1f5[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Thu May 30 14:37:08 2024 +0200
+
+    Foto de perfil, Estilos generales,banner,paginacion coches, editar perfil usuarios
+
+[33mcommit 4ba3eb182951f7a509c4d4ea444fbefef9c0776d[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Wed May 29 14:48:56 2024 +0200
+
+    Usuarios activos solucionado error
+
+[33mcommit c52f35ecc42461f5ae6a0ffb539a99def57089c7[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Wed May 29 13:58:20 2024 +0200
+
+    Estilo, añadida opcion de desactivar usuarios, añadidos controles de acceso a rutas
+
+[33mcommit 10549eb6e6711947fd76e0d02bad11b1bb027b21[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Tue May 28 14:07:14 2024 +0200
+
+    Solucionado erorres de rutas admin y estadisticas
+
+[33mcommit 738502bedffca7972eb13850ba7097eec50b9920[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Tue May 28 13:13:48 2024 +0200
+
+    Solucion errores
+
+[33mcommit a14ca57c0923c456524f62d659ca197b294671cd[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Tue May 28 12:11:25 2024 +0200
+
+    Estilos y barra de ordenacion
+
+[33mcommit 8042970e08acc4f1767100cb35bd793c39afb638[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Mon May 27 13:25:42 2024 +0200
+
+    Añadida opcion de Estadisticas admin, completado control de acceso admin y cliente
+
+[33mcommit 64653debffabe713ccb1b520a320469677838610[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Mon May 27 00:11:03 2024 +0200
+
+    MiniCambios Usuarios sin loguearse
+
+[33mcommit 40a86be4d55ea06b6f34318d2b7e2e00fcf053ea[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Sun May 26 21:06:55 2024 +0200
+
+    Sistema de mensajería básico
+
+[33mcommit c48e86aa17b2118c147aaab31c3389a593d43ff8[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Sun May 26 04:03:10 2024 +0200
+
+    Creacion controlador CompraCoches
+
+[33mcommit b96494baad6aaee2fe96dbbc54a8b0d51ed09260[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Sun May 26 02:49:57 2024 +0200
+
+    Coches favoritos
+
+[33mcommit d56677dc626c838fc0c9d151b2575c6c546d827c[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Sun May 26 00:43:55 2024 +0200
+
+    Descripcion y manejo de multiples imagenes
+
+[33mcommit 6d82b218828a99b5773d1c759390c38af18b5348[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Fri May 24 20:23:59 2024 +0200
+
+    Estilos logo y login/register
+
+[33mcommit 30a8cf98215cebd1ff1b8f9a401c86cbb0312861[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Fri May 24 13:58:40 2024 +0200
+
+    Añadido campo "perfil" en usuarios, algunas modificaciones esteticas, logo añadido al nav principal,creacion de usuario"admin" por defecto.
+
+[33mcommit 591da9cf192768a9aaf5412fede244fd82a3980f[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Fri May 24 00:56:28 2024 +0200
+
+    imagenes adicionales/estilos form editar coches
+
+[33mcommit 89395629c01a0fc4ad5aa603221693e48f507b56[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Thu May 23 01:43:56 2024 +0200
+
+    Creación y declaracion de funciones y utilidades dentro de "Mi Perfil"
+
+[33mcommit 41860ab0bdc499dc3c1a4a72378f5b6966b9455e[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Wed May 22 14:57:24 2024 +0200
+
+    Gestion-anunciosUsuarios
+
+[33mcommit d1f9789965dc4660c8b614973cc426bd6cd4c9ff[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Wed May 22 13:15:22 2024 +0200
+
+    Gestion usuarios
+
+[33mcommit 7ef2978f7f08b2677736e472e553eca229f1cd48[m
+Author: pablohernandez27 <pablohernandezbernal2@gmail.com>
+Date:   Mon May 20 16:09:53 2024 +0200
+
+    Mi perfil 1 version
+
+[33mcommit 8b840c717a81fc0fa6b5819a01f85235752ff1dc[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Sun May 19 19:31:15 2024 +0200
+
+    Galería de Imágenes
+
+[33mcommit 93947c5310cfc3dc267fc4cc585922e5ba5041f2[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Fri May 17 19:41:49 2024 +0200
+
+    Formulario crear coches
+
+[33mcommit fdd4a26ff09d4ac68d6aa5b66ffe4acb72a1d7dc[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Fri May 17 01:07:44 2024 +0200
+
+    Commit listado coches con verDetalles
+
+[33mcommit eb7b4d2bd85cb5f86ab6aaebc0ba174d865891df[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Thu May 16 00:34:33 2024 +0200
+
+    welcome.blade bueno
+
+[33mcommit c56a4a0400c93494822a43fc94a8b821f64adc0c[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Thu May 16 00:31:39 2024 +0200
+
+    welcome.blade cambios
+
+[33mcommit 31e49c573a7fa8ad5bf1f69c9e75ba7d379a277f[m
+Merge: 175a10d 4764078
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Thu May 16 00:30:18 2024 +0200
+
+    Merge branch 'main' of https://github.com/JuandeDAW/CompraVentaCoches
+
+[33mcommit 175a10d52daaa043ed644472eb03efffe16176ac[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Thu May 16 00:29:18 2024 +0200
+
+    Inicio de sesión con correo/nombre de usuario
+
+[33mcommit 0ded9610f32d59ee5469f5db096d9108878bd5a2[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Wed May 15 23:18:34 2024 +0200
+
+    Segunda modificacion vistas
+
+[33mcommit 47640787b63f6daec5161a5f7dc4b9201939800b[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Tue May 14 23:50:12 2024 +0200
+
+    Segunda modificacion vistas
+
+[33mcommit 9ad47f28cdaf6bf401580ef5297f9232e7e9e4e8[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Mon May 13 23:44:38 2024 +0200
+
+    Creación Laravel Breeze y rutas/vistas básicas
+
+[33mcommit f8f2b979b5c91614f7e2a31a0e83f52bb9670794[m
+Author: JuandeDAW <4074932@alu.murciaeduca.es>
+Date:   Sun Apr 28 21:40:53 2024 +0200
+
+    Subida de proyecto a Github
