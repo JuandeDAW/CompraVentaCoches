@@ -15,7 +15,7 @@
         @csrf
         <input type="hidden" name="receiver_id" value="{{ $messages->isEmpty() ? $car->user_id : ($messages->first()->sender_id == Auth::id() ? $messages->first()->receiver_id : $messages->first()->sender_id) }}">
         <div class="input-group">
-            <input type="text" name="message" class="form-control" placeholder="Escribe un mensaje..." required>
+        <textarea name="message" class="form-control" placeholder="Escribe un mensaje..." required style="resize:none; height: 37px;"></textarea> 
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
