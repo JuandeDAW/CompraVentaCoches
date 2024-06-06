@@ -63,7 +63,9 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
                         </form>
+                        @if($usuario->profile !="admin")
                         <a href="{{ route('cars.user', $usuario->id) }}" class="btn btn-info">Ver Anuncios</a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

@@ -28,12 +28,12 @@
                 </p>
                 <div class="mt-4">
                <hr>
-               @if(auth()->user()->profile_image)
-                <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Foto de perfil" class="profile-image">
+               @if($car->user->profile_image)
+                <img src="{{ asset('storage/' . $car->user->profile_image) }}" alt="Foto de perfil" class="profile-image">
               @else
                  <img src="{{ asset('images/imagen_por_defecto.png') }}" alt="Foto de perfil" class="profile-image">
               @endif
-              {{ auth()->user()->username }}
+              {{ $car->user->username }}
             
                     @if(auth()->check())
                          @if(auth()->user()->profile == 'cliente')

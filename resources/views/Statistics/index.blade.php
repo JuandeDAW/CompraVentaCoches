@@ -52,7 +52,6 @@
             chart.draw(data, options);
         }
 
-        // Dibujar gráfico de coches
         google.charts.setOnLoadCallback(drawCarsChart);
 
         function drawCarsChart() {
