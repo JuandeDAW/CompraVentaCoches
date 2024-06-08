@@ -52,7 +52,7 @@ Route::middleware(['auth', 'activo'])->group(function () {
        
     
  
-        //Opciones perfil
+        // Opciones perfil
         Route::get('/miperfil/compras', [OpcionesPerfilController::class, 'compras'])->name('miperfil.compras');
         Route::get('/miperfil/ventas', [OpcionesPerfilController::class, 'ventas'])->name('miperfil.ventas');
         Route::get('/miperfil/valoraciones', [OpcionesPerfilController::class, 'valoraciones'])->name('miperfil.valoraciones');
@@ -61,12 +61,13 @@ Route::middleware(['auth', 'activo'])->group(function () {
         Route::get('/miperfil/chats', [OpcionesPerfilController::class, 'chats'])->name('miperfil.chats');
         Route::get('/miperfil/editar', [OpcionesPerfilController::class, 'editar'])->name('miperfil.editar');
         Route::patch('/miperfil/editar/{id}', [OpcionesPerfilController::class, 'actualizar'])->name('miperfil.actualizar');
-
-        //Guardar coches como favoritos
+        Route::post('/miperfil/vender', [OpcionesPerfilController::class, 'sell'])->name('cars.sell');
+        
+        // Guardar coches como favoritos
         Route::post('/coches-favoritos/store', [CocheFavoritoController::class, 'store'])->name('coches.favoritos.store');
         Route::delete('/coches-favoritos/{car_id}', [CocheFavoritoController::class, 'destroy'])->name('coches.favoritos.destroy');
-
-        //Chats entre usuarios
+        
+        // Chats entre usuarios
         Route::get('/miperfil/chats', [ChatController::class, 'index'])->name('miperfil.chats');
         Route::get('/miperfil/chats/{carId}', [ChatController::class, 'show'])->name('miperfil.chat');
         Route::post('/miperfil/chats/{carId}', [ChatController::class, 'sendMessage'])->name('miperfil.chat.send');

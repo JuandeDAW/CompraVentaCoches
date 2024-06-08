@@ -31,27 +31,29 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este coche?')">Eliminar</button>
                                     </form>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#sellCarModal" data-car-id="{{ $car->id }}">Vender</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
                     <table>
-                     <tr>    
-                         <th><h4 >Todavia no tienes anuncios!</h4></th>
-                     </tr>
-                    <tr>
-                        <td><img src="{{ asset('images/cara-triste2.jpg') }}" alt="Emoji" width="150px" class="emoji"></td>
-                    </tr>
-                     <tr>
-                         <td><a href="{{ url('/create') }}" class="boton-empty">Subir Coche</a></td>
-                    </tr>
+                        <tr>
+                            <th><h4>Todavía no tienes anuncios!</h4></th>
+                        </tr>
+                        <tr>
+                            <td><img src="{{ asset('images/cara-triste2.jpg') }}" alt="Emoji" width="150px" class="emoji"></td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ url('/create') }}" class="boton-empty">Subir Coche</a></td>
+                        </tr>
                     </table>
                 @endforelse
             </div>
         </div>
     </div>
 
+    
     <div id="gallery-modal" class="gallery-modal">
         <span class="close" onclick="closeGallery()">&times;</span>
         <div class="gallery-content" id="gallery-content">
@@ -60,86 +62,132 @@
         <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
         <a class="next" onclick="changeSlide(1)">&#10095;</a>
     </div>
-
+    
+    <!-- Modal para Vender -->
+    <div class="modal" id="sellCarModal" tabindex="1" role="dialog" aria-labelledby="sellCarModalLabel" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sellCarModalLabel">Seleccionar Comprador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('cars.sell') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="car_id" id="car_id" value="">
+                        <div class="form-group">
+                            <label for="buyer_id">Seleccionar Comprador:</label>
+                            <select name="buyer_id" id="buyer_id" class="form-control">
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Vender</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <style>
-    .gallery-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        padding-top: 100px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+        }
 
-    .gallery-content {
-        position: relative;
-        margin: auto;
-        padding: 10px;
-        width: 80%;
-        max-width: 700px;
-    }
+        .gallery-modal.no-background {
+            background-color: transparent; /* Eliminar el fondo para este modal */
+        }
 
-    .gallery-slide {
-        display: none;
-        text-align: center;
-    }
+        .gallery-content {
+            position: relative;
+            margin: auto;
+            padding: 10px;
+            width: 80%;
+            max-width: 700px;
+        }
 
-    .gallery-img {
-        width: 100%;
-        height: auto;
-    }
+        .gallery-slide {
+            display: none;
+            text-align: center;
+        }
 
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 35px;
-        color: white;
-        font-size: 40px;
-        font-weight: bold;
-        transition: 0.3s;
-    }
+        .gallery-img {
+            width: 100%;
+            height: auto;
+        }
 
-    .close:hover,
-    .close:focus {
-        color: #bbb;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-    .prev, .next {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        width: auto;
-        padding: 16px;
-        margin-top: -22px;
-        color: white;
-        font-weight: bold;
-        font-size: 20px;
-        transition: 0.3s;
-    }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-    .prev {
-        left: 0;
-    }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.3s;
+        }
 
-    .next {
-        right: 0;
-    }
+        .prev {
+            left: 0;
+        }
 
-    .prev:hover, .next:hover {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
+        .next {
+            right: 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Fondo semitransparente */
+}
+
+.modal-dialog {
+    background-color: transparent !important; /* Fondo del modal transparente */
+    box-shadow: none !important; /* Eliminar la sombra del modal */
+}
+        
     </style>
 
     <script>
-    let slideIndex = 1;
-    let carImages = @json($cars->mapWithKeys(function ($car) {
-        return [$car->id => [
+        let slideIndex = 1;
+        let carImages = @json($cars->mapWithKeys(function ($car){
+
+            return [$car->id => [
             'main_image' => $car->imagen ? asset('storage/' . $car->imagen) : null,
             'additional_images' => $car->images->map(function ($image) {
                 return asset('storage/' . $image->image_path);
@@ -166,6 +214,7 @@
             galleryContent.appendChild(additionalImage);
         });
 
+        document.getElementById('gallery-modal').className = 'gallery-modal'; // Restablecer la clase para eliminar cualquier clase adicional
         document.getElementById('gallery-modal').style.display = 'block';
         showSlides(slideIndex = 1);
     }
@@ -193,5 +242,19 @@
             closeGallery();
         }
     }
-    </script>
+
+    $('#sellCarModal').on('modal', function (event) {
+        var button = $(event.relatedTarget);
+        var carId = button.data('car-id');
+        var modal = $(this);
+        modal.find('#car_id').val(carId);
+    });
+
+    $(document).ready(function(){
+        $('#sellCarModal').on('shown.bs.modal', function () {
+            $('.modal-backdrop').remove(); // Eliminar el div con la clase modal-backdrop
+        });
+    });
+</script>
+
 @endsection
