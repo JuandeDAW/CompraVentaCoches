@@ -61,7 +61,8 @@ Route::middleware(['auth', 'activo'])->group(function () {
         Route::get('/miperfil/chats', [OpcionesPerfilController::class, 'chats'])->name('miperfil.chats');
         Route::get('/miperfil/editar', [OpcionesPerfilController::class, 'editar'])->name('miperfil.editar');
         Route::patch('/miperfil/editar/{id}', [OpcionesPerfilController::class, 'actualizar'])->name('miperfil.actualizar');
-        Route::post('/miperfil/vender', [OpcionesPerfilController::class, 'sell'])->name('cars.sell');
+        Route::post('/miperfil/misAnuncios', [OpcionesPerfilController::class, 'sell'])->name('cars.sell');
+        
         
         // Guardar coches como favoritos
         Route::post('/coches-favoritos/store', [CocheFavoritoController::class, 'store'])->name('coches.favoritos.store');
@@ -72,6 +73,10 @@ Route::middleware(['auth', 'activo'])->group(function () {
         Route::get('/miperfil/chats/{carId}', [ChatController::class, 'show'])->name('miperfil.chat');
         Route::post('/miperfil/chats/{carId}', [ChatController::class, 'sendMessage'])->name('miperfil.chat.send');
 
+
+        // Valoraciones
+        Route::get('valoraciones/create/{compraId}', [OpcionesPerfilController::class, 'createValoracion'])->name('valoraciones.create');
+        Route::post('valoraciones', [OpcionesPerfilController::class, 'storeValoracion'])->name('valoraciones.store');
 });
 
 require __DIR__.'/auth.php';

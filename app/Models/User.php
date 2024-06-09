@@ -51,5 +51,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Car::class);
     }
+
+    public function valoraciones()
+    {
+        return $this->hasMany(Valoracion::class, 'user_id');
+    }
     
+
 }

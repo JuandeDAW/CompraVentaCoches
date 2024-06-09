@@ -66,23 +66,26 @@
         <div class="content mt-5">
             <h1 class="text-center">Coches Disponibles</h1>
             <div class="row">
-                @foreach($cars as $car)
-                    <div class="col-md-4">
-                        <div class="card car-card" data-id="{{ $car->id }}">
-                            @if ($car->image)
-                            <img src="{{ $car->imagen }}" class="card-img-top" alt="{{ $car->marca }} {{ $car->modelo }}">
-                            @endif
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h5>
-                                <p class="card-text">
-                                    Año: {{ $car->anio }}<br>
-                                    Kilometraje: {{ $car->kilometraje }} km<br>
-                                    Precio: {{ number_format($car->precio)€ }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            @foreach($cars as $car)
+    @if ($car->disponible)
+        <div class="col-md-4">
+            <div class="card car-card" data-id="{{ $car->id }}">
+                @if ($car->imagen)
+                    <img src="{{ asset('storage/' . $car->imagen) }}" class="card-img-top car-main-img" alt="{{ $car->marca }} {{ $car->modelo }}">
+                @endif
+                <div class="card-body">
+                    <h3 class="card-title">{{ $car->marca }} {{ $car->modelo }}</h3>
+                    <h4 id="card-subtitle">{{ number_format($car->precio) }}€</h4>
+                    <p class="card-text">
+                        Año: {{ $car->anio }}<br>
+                        Kilometraje: {{ $car->kilometraje }} km<br>
+                    </p>
+                    <a href="{{ route('cars.show', $car->id) }}" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+    @endif
+@endforeach
             </div>
         </div>
     </div>

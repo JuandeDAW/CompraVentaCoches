@@ -22,13 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('*', function ($view) {
-            if (Auth::check()) {
-                $unreadMessagesCount = Message::where('receiver_id', Auth::id())
-                                              ->where('read_at', null)
-                                              ->count();
-                $view->with('unreadMessagesCount', $unreadMessagesCount);
-            }
-        });
+       //
     }
 }

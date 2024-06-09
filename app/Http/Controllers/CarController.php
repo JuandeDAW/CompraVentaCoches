@@ -17,7 +17,7 @@ class CarController extends Controller
     public function index()
     {
      
-        $cars = Car::simplePaginate(9);
+        $cars = Car::where('estado', 'Disponible')->paginate(9);
         return view('cars.index', compact('cars'));
     }
 
@@ -57,18 +57,14 @@ class CarController extends Controller
 
 
 
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-        $cars = Car::where('marca', 'like', "%$query%")
-                    ->orWhere('modelo', 'like', "%$query%")
-                    ->get();
-        return view('cars.index', compact('cars'));
-    }
-
- 
-
-
+public function search(Request $request)
+{
+    $query = $request->input('query');
+    $cars = Car::where('marca', 'like', "%$query%")
+                ->orWhere('modelo', 'like', "%$query%")
+                ->paginate(9);
+    return view('cars.index', compact('cars'));
+}
 
     public function show($id)
     {
@@ -162,10 +158,7 @@ class CarController extends Controller
     return redirect()->route('home')->with('success', 'Coche añadido correctamente');
 }
 
-
-
-
-
+    
     public function edit(Car $car)
     {
         return view('cars.edit', compact('car'));

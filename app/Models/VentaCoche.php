@@ -9,6 +9,13 @@ class VentaCoche extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'seller_id',
+        'buyer_id',
+        'car_id',
+    ];
+    
     protected $table = 'ventas_coches';
 
     public function buyer()
