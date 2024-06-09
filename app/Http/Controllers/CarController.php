@@ -13,79 +13,78 @@ use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
-
     public function index()
     {
-     
         $cars = Car::where('estado', 'Disponible')->paginate(9);
         return view('cars.index', compact('cars'));
     }
 
     public function UserCar($id)
     {
-
-             $us = User::find($id);
-            $cars = $us->cars;
-            return view('GestionCochesUsuarios.index', compact('us', 'cars'));
-            
+        $us = User::find($id);
+        $cars = $us->cars()->where('estado', 'Disponible')->get();
+        return view('GestionCochesUsuarios.index', compact('us', 'cars'));
     }
-
 
     public function sort(Request $request)
-{
-    $sortOption = $request->input('sort');
-    
-    switch ($sortOption) {
-        case 'price_asc':
-            $cars = Car::orderBy('precio', 'asc')->paginate(9);
-            break;
-        case 'price_desc':
-            $cars = Car::orderBy('precio', 'desc')->paginate(9);
-            break;
-        case 'date_asc':
-            $cars = Car::orderBy('created_at', 'asc')->paginate(9);
-            break;
-        case 'date_desc':
-            $cars = Car::orderBy('created_at', 'desc')->paginate(9);
-            break;
-        default:
-        $cars = Car::paginate(9);
+    {
+        $sortOption = $request->input('sort');
+        
+        $carsQuery = Car::where('estado', 'Disponible');
+        
+        switch ($sortOption) {
+            case 'price_asc':
+                $cars = $carsQuery->orderBy('precio', 'asc')->paginate(9);
+                break;
+            case 'price_desc':
+                $cars = $carsQuery->orderBy('precio', 'desc')->paginate(9);
+                break;
+            case 'date_asc':
+                $cars = $carsQuery->orderBy('created_at', 'asc')->paginate(9);
+                break;
+            case 'date_desc':
+                $cars = $carsQuery->orderBy('created_at', 'desc')->paginate(9);
+                break;
+            default:
+                $cars = $carsQuery->paginate(9);
+        }
+
+        return view('cars.index', compact('cars'));
     }
 
-    return view('cars.index', compact('cars'));
-}
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $cars = Car::where('estado', 'Disponible')
+                    ->where(function($q) use ($query) {
+                        $q->where('marca', 'like', "%$query%")
+                          ->orWhere('modelo', 'like', "%$query%");
+                    })
+                    ->paginate(9);
 
-
-
-public function search(Request $request)
-{
-    $query = $request->input('query');
-    $cars = Car::where('estado', 'Disponible')
-                ->where(function($q) use ($query) {
-                    $q->where('marca', 'like', "%$query%")
-                      ->orWhere('modelo', 'like', "%$query%");
-                })
-                ->paginate(9);
-
-    return view('cars.index', compact('cars'));
-}
-
+        return view('cars.index', compact('cars'));
+    }
 
     public function show($id)
     {
-        $car = Car::find($id);
+        $car = Car::where('estado', 'Disponible')->find($id);
+        
+        if (!$car) {
+            // Manejar el caso cuando el coche no está disponible o no existe
+            return redirect()->route('cars.index')->with('error', 'Coche no disponible o no encontrado');
+        }
+
         $us = $car->user;
         $isFavorite = false;
-    
+
         if (auth()->check()) {
             $isFavorite = CocheFavorito::where('user_id', auth()->user()->id)
                                        ->where('car_id', $id)
                                        ->exists();
         }
-    
-        return view('cars.show', compact('car', 'isFavorite','us'));
+
+        return view('cars.show', compact('car', 'isFavorite', 'us'));
     }
-    
 
     public function create()
     {
@@ -93,77 +92,76 @@ public function search(Request $request)
     }
 
     public function store(Request $request)
-{
-    Log::info('Inicio de la solicitud de almacenamiento de coche.');
+    {
+        Log::info('Inicio de la solicitud de almacenamiento de coche.');
 
-    // Validar los datos del formulario
-    $validatedData = $request->validate([
-        'marca' => 'required|string|max:255',
-        'modelo' => 'required|string|max:255',
-        'color' => 'required|string|max:255',
-        'imagen_principal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        'imagenes_adicionales.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'anio' => 'required|integer',
-        'kilometraje' => 'required|integer',
-        'distintivo_ambiental' => 'required|string|max:255',
-        'combustible' => 'required|string|max:255',
-        'cambio' => 'required|string|max:255',
-        'motor' => 'required|string|max:255',
-        'precio' => 'required|numeric',
-        'descripcion' => 'nullable|string|max:1000'
-    ]);
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'marca' => 'required|string|max:255',
+            'modelo' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+            'imagen_principal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'imagenes_adicionales.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'anio' => 'required|integer',
+            'kilometraje' => 'required|integer',
+            'distintivo_ambiental' => 'required|string|max:255',
+            'combustible' => 'required|string|max:255',
+            'cambio' => 'required|string|max:255',
+            'motor' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+            'descripcion' => 'nullable|string|max:1000'
+        ]);
 
-    Log::info('Datos validados:', $validatedData);
+        Log::info('Datos validados:', $validatedData);
 
-    // Crear un nuevo objeto Car con los datos validados
-    $car = new Car();
-    $car->marca = $validatedData['marca'];
-    $car->modelo = $validatedData['modelo'];
-    $car->color = $validatedData['color'];
-    $car->anio = $validatedData['anio'];
-    $car->kilometraje = $validatedData['kilometraje'];
-    $car->distintivo_ambiental = $validatedData['distintivo_ambiental'];
-    $car->combustible = $validatedData['combustible'];
-    $car->cambio = $validatedData['cambio'];
-    $car->motor = $validatedData['motor'];
-    $car->precio = $validatedData['precio'];
-    $car->descripcion = $validatedData['descripcion'];
-    $car->user_id = auth()->user()->id;
+        // Crear un nuevo objeto Car con los datos validados
+        $car = new Car();
+        $car->marca = $validatedData['marca'];
+        $car->modelo = $validatedData['modelo'];
+        $car->color = $validatedData['color'];
+        $car->anio = $validatedData['anio'];
+        $car->kilometraje = $validatedData['kilometraje'];
+        $car->distintivo_ambiental = $validatedData['distintivo_ambiental'];
+        $car->combustible = $validatedData['combustible'];
+        $car->cambio = $validatedData['cambio'];
+        $car->motor = $validatedData['motor'];
+        $car->precio = $validatedData['precio'];
+        $car->descripcion = $validatedData['descripcion'];
+        $car->user_id = auth()->user()->id;
 
-    // Guardar la imagen principal del coche en la tabla "cars"
-    if ($request->hasFile('imagen_principal') && $request->file('imagen_principal')->isValid()) {
-        $userId = auth()->user()->id;
-        $userName = auth()->user()->username;
-        $imagePath = $request->file('imagen_principal')->store('cars/' . $userId . '_' . $userName, 'public');
-        $car->imagen = $imagePath;
-        Log::info('Imagen principal del coche guardada en la tabla Cars.');
-    }
-
-    // Guardar el coche en la base de datos
-    $car->save();
-    Log::info('Coche guardado:', ['car_id' => $car->id]);
-
-    // Manejar la subida de imágenes adicionales
-    if ($request->hasFile('imagenes_adicionales')) {
-        Log::info('Inicio de la subida de imágenes adicionales.');
-        foreach ($request->file('imagenes_adicionales') as $image) {
-            if ($image->isValid()) {
-                $userId = auth()->user()->id;
-                $userName = auth()->user()->username;
-                $imagePath = $image->store('cars/' . $userId . '_' . $userName, 'public');
-                // Guardar la ruta de la imagen en la tabla "car_images"
-                $car->images()->create(['image_path' => $imagePath]);
-                Log::info('Imagen adicional del coche guardada en la tabla CarImages.');
-            }
+        // Guardar la imagen principal del coche en la tabla "cars"
+        if ($request->hasFile('imagen_principal') && $request->file('imagen_principal')->isValid()) {
+            $userId = auth()->user()->id;
+            $userName = auth()->user()->username;
+            $imagePath = $request->file('imagen_principal')->store('cars/' . $userId . '_' . $userName, 'public');
+            $car->imagen = $imagePath;
+            Log::info('Imagen principal del coche guardada en la tabla Cars.');
         }
-        Log::info('Proceso de subida de imágenes adicionales completado.');
+
+        // Guardar el coche en la base de datos
+        $car->save();
+        Log::info('Coche guardado:', ['car_id' => $car->id]);
+
+        // Manejar la subida de imágenes adicionales
+        if ($request->hasFile('imagenes_adicionales')) {
+            Log::info('Inicio de la subida de imágenes adicionales.');
+            foreach ($request->file('imagenes_adicionales') as $image) {
+                if ($image->isValid()) {
+                    $userId = auth()->user()->id;
+                    $userName = auth()->user()->username;
+                    $imagePath = $image->store('cars/' . $userId . '_' . $userName, 'public');
+                    // Guardar la ruta de la imagen en la tabla "car_images"
+                    $car->images()->create(['image_path' => $imagePath]);
+                    Log::info('Imagen adicional del coche guardada en la tabla CarImages.');
+                }
+            }
+            Log::info('Proceso de subida de imágenes adicionales completado.');
+        }
+
+        // Redireccionar con mensaje de éxito
+        return redirect()->route('home')->with('success', 'Coche añadido correctamente');
     }
 
-    // Redireccionar con mensaje de éxito
-    return redirect()->route('home')->with('success', 'Coche añadido correctamente');
-}
-
-    
     public function edit(Car $car)
     {
         return view('cars.edit', compact('car'));
