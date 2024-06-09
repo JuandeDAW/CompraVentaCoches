@@ -60,11 +60,16 @@ class CarController extends Controller
 public function search(Request $request)
 {
     $query = $request->input('query');
-    $cars = Car::where('marca', 'like', "%$query%")
-                ->orWhere('modelo', 'like', "%$query%")
+    $cars = Car::where('estado', 'Disponible')
+                ->where(function($q) use ($query) {
+                    $q->where('marca', 'like', "%$query%")
+                      ->orWhere('modelo', 'like', "%$query%");
+                })
                 ->paginate(9);
+
     return view('cars.index', compact('cars'));
 }
+
 
     public function show($id)
     {
