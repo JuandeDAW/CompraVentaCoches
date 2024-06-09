@@ -18,45 +18,67 @@ use Illuminate\Support\Facades\Log;
 class OpcionesPerfilController extends Controller
 {
     public function compras()
-{
-    $compras = CompraCoche::where('buyer_id', Auth::id())->with('car')->get();
-    return view('miperfil.compras', compact('compras'));
-}
+    {
+        $compras = CompraCoche::where('buyer_id', Auth::id())
+            ->whereHas('car', function ($query) {
+                $query->where('estado', 'Disponible');
+            })
+            ->with('car')
+            ->get();
+        return view('miperfil.compras', compact('compras'));
+    }
 
-public function ventas()
-{
-    $ventas = VentaCoche::where('seller_id', Auth::id())->with('car')->get();
-    return view('miperfil.ventas', compact('ventas'));
-}
+    public function ventas()
+    {
+        $ventas = VentaCoche::where('seller_id', Auth::id())
+            ->whereHas('car', function ($query) {
+                $query->where('estado', 'Disponible');
+            })
+            ->with('car')
+            ->get();
+        return view('miperfil.ventas', compact('ventas'));
+    }
 
-public function valoraciones()
-{
-    $userId = Auth::id();
-    $valoraciones = Valoracion::where('seller_id', $userId)->with('buyer')->get();
-    return view('miperfil.valoraciones', compact('valoraciones'));
-}
+    public function valoraciones()
+    {
+        $userId = Auth::id();
+        $valoraciones = Valoracion::where('seller_id', $userId)
+            ->whereHas('compra.car', function ($query) {
+                $query->where('estado', 'Disponible');
+            })
+            ->with('buyer')
+            ->get();
+        return view('miperfil.valoraciones', compact('valoraciones'));
+    }
 
     public function misAnuncios()
-{
-    $cars = Car::where('user_id', Auth::id())->where('estado', 'Disponible')->get();
-    $userId = Auth::id();
+    {
+        $cars = Car::where('user_id', Auth::id())
+            ->where('estado', 'Disponible')
+            ->get();
+        $userId = Auth::id();
 
-    $userIds = Message::where('receiver_id', $userId)
-        ->orWhere('sender_id', $userId)
-        ->pluck('sender_id', 'receiver_id')
-        ->flatten()
-        ->unique()
-        ->filter(fn($id) => $id != $userId)
-        ->toArray();
+        $userIds = Message::where('receiver_id', $userId)
+            ->orWhere('sender_id', $userId)
+            ->pluck('sender_id', 'receiver_id')
+            ->flatten()
+            ->unique()
+            ->filter(fn($id) => $id != $userId)
+            ->toArray();
 
-    $users = User::whereIn('id', $userIds)->get();
+        $users = User::whereIn('id', $userIds)->get();
 
-    return view('miperfil.misAnuncios', compact('cars', 'users'));
-}
+        return view('miperfil.misAnuncios', compact('cars', 'users'));
+    }
 
     public function favoritos()
     {
-        $favoritos = CocheFavorito::where('user_id', Auth::id())->with('car')->get();
+        $favoritos = CocheFavorito::where('user_id', Auth::id())
+            ->whereHas('car', function ($query) {
+                $query->where('estado', 'Disponible');
+            })
+            ->with('car')
+            ->get();
         return view('miperfil.favoritos', compact('favoritos'));
     }
 
@@ -72,41 +94,40 @@ public function valoraciones()
     }
 
     public function actualizar(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        'username' => 'required|string|max:255|unique:users,username,' . $id,
-        'password' => 'nullable|string|min:8|confirmed',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
 
-    $user = Auth::user();
+        $user = Auth::user();
 
-    if ($user->id != $id) {
-        return redirect()->route('miperfil.editar', $user->id)->with('error', 'No tienes permiso para actualizar este perfil.');
-    }
-
-    if ($request->hasFile('profile_image')) {
-        if ($user->profile_image) {
-            Storage::disk('public')->delete($user->profile_image);
+        if ($user->id != $id) {
+            return redirect()->route('miperfil.editar', $user->id)->with('error', 'No tienes permiso para actualizar este perfil.');
         }
-        $path = $request->file('profile_image')->store('profile_images', 'public');
-        $user->profile_image = $path;
+
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile_image) {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+            $path = $request->file('profile_image')->store('profile_images', 'public');
+            $user->profile_image = $path;
+        }
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->username = $request->input('username');
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+
+        $user->save();
+
+        return redirect()->route('miperfil.editar')->with('success', 'Perfil actualizado correctamente.');
     }
-
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->username = $request->input('username');
-
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->input('password'));
-    }
-
-    $user->save();
-
-    return redirect()->route('miperfil.editar')->with('success', 'Perfil actualizado correctamente.');
-}
-
 
     public function sell(Request $request)
     {
@@ -155,7 +176,6 @@ public function valoraciones()
     
         return redirect()->route('miperfil.misAnuncios')->with('success', 'Coche vendido exitosamente.');
     }
-    
 
     public function createValoracion($compraId)
     {
@@ -172,7 +192,6 @@ public function valoraciones()
     
         return view('valoraciones.create', compact('compra'));
     }
-    
 
     public function storeValoracion(Request $request)
     {
